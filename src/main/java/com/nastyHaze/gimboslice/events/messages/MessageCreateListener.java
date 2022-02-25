@@ -11,6 +11,9 @@ import reactor.core.publisher.Mono;
 
 import java.util.Optional;
 
+/**
+ *  Handles creating responses to Discord Message commands.
+ */
 @Service
 public class MessageCreateListener extends MessageListener implements Listener<MessageCreateEvent> {
 

@@ -7,7 +7,7 @@ import reactor.core.publisher.Mono;
 import java.util.Objects;
 
 /**
- *
+ *  Processes messages from the Discord server chat.
  */
 public abstract class MessageListener {
 

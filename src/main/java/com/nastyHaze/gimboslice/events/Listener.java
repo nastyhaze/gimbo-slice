@@ -5,20 +5,32 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Mono;
 
-
+/**
+ *  Listener interface for all Message-related EventListeners.
+ * @param <T>
+ */
 public interface Listener<T extends Event> {
 
     Logger log = LoggerFactory.getLogger(Listener.class);
 
-    /*
-        Mono: Implementation of the Reactive Streams' 'Publisher' Interface.
-            Cardinality of 0/1 - always.
+    /**
+     * Executes the command from Message content & provides Bot response.
+     * @param event
+     * @return
      */
     Mono<Void> execute(T event);
-    // Generic listening for events
+
+    /**
+     * Get the type of Event currently being processed.
+     * @return
+     */
     Class<T> getEventType();
 
-    // Generic handling for children
+    /**
+     * Error handling for bad commands.
+     * @param error
+     * @return
+     */
     default Mono<Void> handleError(Throwable error) {
         log.error("Unable to process " + getEventType().getSimpleName(), error);
         return Mono.empty();
