@@ -12,6 +12,10 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
 
+
+/**
+ *  Provides basic Bot configuration.
+ */
 @Configuration
 public class BotConfiguration {
 
@@ -20,6 +24,13 @@ public class BotConfiguration {
 
     private static final Logger log = LoggerFactory.getLogger(BotConfiguration.class);
 
+    /**
+     * Builds the bot from Discord's developer page, logs Bot into all servers where it is a member, and subscribes to
+     *      all client Events.
+     * @param listeners
+     * @param <T>
+     * @return
+     */
     @Bean
     public <T extends Event> GatewayDiscordClient gatewayDiscordClient(List<Listener<T>> listeners) {
         GatewayDiscordClient client = null;
