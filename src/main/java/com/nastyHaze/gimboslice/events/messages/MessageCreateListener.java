@@ -30,6 +30,7 @@ public class MessageCreateListener extends MessageListener implements Listener<M
 
             if (incomingCommand.isEmpty())
                 stream = processError(event.getMessage());
+                // stream = processPublicError(event.getMessage());
             else
                 stream = processMessageCommand(event.getMessage(), incomingCommand.get());
         }

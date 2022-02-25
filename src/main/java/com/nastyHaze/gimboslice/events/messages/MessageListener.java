@@ -29,11 +29,24 @@ public abstract class MessageListener {
     }
 
     /**
-     * Processes Commands that start with the Command operator '?' but do not contain a valid Command trigger.
+     * PRIVATE: Processes Commands that start with the Command operator '?' but do not contain a valid Command trigger.
      * @param errorMessage
      * @return
      */
     public Mono<Void> processError(Message errorMessage) {
+        return Mono.just(errorMessage)
+                .filter(message -> message.getAuthor().map(user -> !user.isBot()).orElse(false))
+                .flatMap(Message::getChannel)
+                .flatMap(channel -> channel.createMessage("Whoops! Invalid command, ***I D I O T***."))
+                .then();
+    }
+
+    /**
+     * PUBLIC: Processes Commands that start with the Command operator '?' but do not contain a valid Command trigger.
+     * @param errorMessage
+     * @return
+     */
+    public Mono<Void> processPublicError(Message errorMessage) {
         return Mono.just(errorMessage)
                 .filter(message -> message.getAuthor().map(user -> !user.isBot()).orElse(false))
                 .flatMap(Message::getChannel)
