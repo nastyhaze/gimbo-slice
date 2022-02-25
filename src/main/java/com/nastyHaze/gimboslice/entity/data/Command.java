@@ -5,11 +5,14 @@ import com.nastyHaze.gimboslice.entity.AbstractDomainEntity;
 import javax.persistence.*;
 import java.util.Objects;
 
+
+/**
+ * Entity class for Bot Command(s).
+ */
 @Entity
 public class Command extends AbstractDomainEntity {
 
     private String name;
-    private long type;
     private String description;
     private String trigger;
     private String response;

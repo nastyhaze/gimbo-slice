@@ -7,7 +7,9 @@ import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 import java.util.Objects;
 
-
+/**
+ * Abstract Entity class to provide id column & generation strategy to data Entities.
+ */
 @MappedSuperclass
 public class AbstractDomainEntity implements Serializable {
 
