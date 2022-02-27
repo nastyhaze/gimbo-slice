@@ -11,7 +11,8 @@ Java: 16.0.2 (Amazon Corretto); Project Language Level: 11
 Gradle: 7.4; Java sourceCompatability: 11
 SpringBoot: 2.6.4 
 Discord4J: 3.2.2
-
+MySQL: 8.0.27 (Community Server)
+MySQL Workbench: 8.0.27
 
 ===================
 Contributors
