@@ -1,5 +1,6 @@
 package com.nastyHaze.gimboslice.event;
 
+import com.nastyHaze.gimboslice.common.CommonUtility;
 import com.nastyHaze.gimboslice.entity.data.Command;
 import discord4j.core.object.entity.Message;
 import reactor.core.publisher.Mono;
@@ -32,6 +33,11 @@ public abstract class MessageListener {
     public Mono<Void> processUpdateCommand(Message eventMessage, Command command) {
         if(Objects.isNull(command))
             return Mono.empty();
+
+        if(!CommonUtility.isServerOwner(eventMessage.getGuild(), eventMessage.getAuthorAsMember()))
+            return Mono.empty();
+
+
 
         return null;
     }
