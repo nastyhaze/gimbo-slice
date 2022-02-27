@@ -1,8 +1,7 @@
-package com.nastyHaze.gimboslice.events.messages;
+package com.nastyHaze.gimboslice.event;
 
-import com.nastyHaze.gimboslice.constants.CommandConstants;
+import com.nastyHaze.gimboslice.common.CommonConstant;
 import com.nastyHaze.gimboslice.entity.data.Command;
-import com.nastyHaze.gimboslice.events.Listener;
 import com.nastyHaze.gimboslice.repository.CommandRepository;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +24,11 @@ public class MessageCreateListener extends MessageListener implements Listener<M
         Mono<Void> stream;
         String commandString = event.getMessage().getContent();
 
-        if(commandString.charAt(0) != CommandConstants.COMMAND_OPERATOR) {
+        if(commandString.charAt(0) != CommonConstant.COMMAND_OPERATOR) {
             stream = processMessageCommand(event.getMessage(), null);
         } else {
             Optional<Command> incomingCommand =
-                    Optional.ofNullable(commandRepository.findByTrigger(commandString));
+                    Optional.ofNullable(commandRepository.findByTriggerAndActiveTrue(commandString));
 
             if (incomingCommand.isEmpty())
                 stream = processError(event.getMessage());
@@ -45,4 +44,5 @@ public class MessageCreateListener extends MessageListener implements Listener<M
     public Class<MessageCreateEvent> getEventType() {
         return MessageCreateEvent.class;
     }
+
 }

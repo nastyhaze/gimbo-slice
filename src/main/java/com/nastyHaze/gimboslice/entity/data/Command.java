@@ -16,6 +16,7 @@ public class Command extends AbstractDomainEntity {
     private String description;
     private String trigger;
     private String response;
+    private boolean active;
 
     Command() {
         super();
@@ -26,6 +27,7 @@ public class Command extends AbstractDomainEntity {
         this.description = description;
         this.trigger = trigger;
         this.response = response;
+        this.active = true;
     }
 
     public String getName() {
@@ -60,17 +62,26 @@ public class Command extends AbstractDomainEntity {
         this.response = response;
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
         Command command = (Command) o;
-        return Objects.equals(name, command.name) && Objects.equals(description, command.description) && Objects.equals(trigger, command.trigger) && Objects.equals(response, command.response);
+        return active == command.active && Objects.equals(name, command.name) && Objects.equals(description, command.description) && Objects.equals(trigger, command.trigger) && Objects.equals(response, command.response);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, description, trigger, response);
+        return Objects.hash(super.hashCode(), name, description, trigger, response, active);
     }
 
     @Override
@@ -80,6 +91,7 @@ public class Command extends AbstractDomainEntity {
                 ", description='" + description + '\'' +
                 ", trigger='" + trigger + '\'' +
                 ", response='" + response + '\'' +
+                ", active=" + active +
                 '}';
     }
 }

@@ -1,4 +1,4 @@
-package com.nastyHaze.gimboslice.events.messages;
+package com.nastyHaze.gimboslice.event;
 
 import com.nastyHaze.gimboslice.entity.data.Command;
 import discord4j.core.object.entity.Message;
@@ -14,6 +14,7 @@ public abstract class MessageListener {
     /**
      * Processes commands from the Discord server that require text responses - ignoring bots.
      * @param eventMessage
+     * @param command
      * @return Message with Command response field
      */
     public Mono<Void> processMessageCommand(Message eventMessage, Command command) {
@@ -26,6 +27,13 @@ public abstract class MessageListener {
                 .flatMap(Message::getChannel)
                 .flatMap(channel -> channel.createMessage(command.getResponse()))
                 .then();
+    }
+
+    public Mono<Void> processUpdateCommand(Message eventMessage, Command command) {
+        if(Objects.isNull(command))
+            return Mono.empty();
+
+        return null;
     }
 
     /**

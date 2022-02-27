@@ -1,4 +1,4 @@
-package com.nastyHaze.gimboslice.events;
+package com.nastyHaze.gimboslice.event;
 
 import discord4j.core.event.domain.Event;
 import org.slf4j.Logger;
@@ -7,7 +7,7 @@ import reactor.core.publisher.Mono;
 
 /**
  *  Listener interface for all Message-related EventListeners.
- * @param <T>
+ *  @param <T>
  */
 public interface Listener<T extends Event> {
 
