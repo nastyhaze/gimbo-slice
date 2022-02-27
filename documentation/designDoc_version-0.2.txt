@@ -1,0 +1,63 @@
+============
+VERSION 0.2
+============
+-------
+Entity
+-------
+@MappedSuperclass
+public class AbstractDomainEntity implements Serializable
+	- private long id
+
+@Entity
+public class Command extends AbstractDomainEntity
+	- private String name
+	- private String description
+	- private String trigger
+	- private String response
+	- private boolean active
+	
+
+-----------
+Repository
+-----------
+public interface CommandRepository extends JpaRepository<Command, Long>
+	- public Command findByTriggerAndActiveTrue(String trigger)
+
+
+------
+Event
+------
+public interface Listener<T extends Event>
+	- public Mono<Void> execute(T event)
+	- public Class<T> getEventType()
+	- default Mono<Void> handleError(Throwable error)
+
+public abstract class MessageListener
+	- public Mono<Void> processMessageCommand(Message eventMessage, Command command)
+	- public Mono<Void> processUpdateCommand(Message eventMessage, Command command)
+	- public Mono<Void> processError(Message errorMessage)
+	- public Mono<Void> processPublicError(Message errorMessage)
+	
+
+--------
+Service
+--------
+@Service
+public class MessageCreateListener extends MessageListener implements Listener<MessageCreateEvent>
+	- public Mono<Void> execute(MessageCreateEvent event)
+	- public Class<MessageCreateEvent> getEventType()
+	
+@Service
+public class CommandUpdateListener extends MessageListener implements Listener<MessageCreateEvent>
+	- public Mono<Void> execute(MessageCreateEvent event)
+	- public Class<MessageCreateEvent> getEventType()
+
+
+-------
+Common
+-------
+public class CommonUtility
+
+public class CommonConstant
+	- public static final char COMMAND_OPERATOR = '?'
+	- public static final char UPDATE_OPERATOR = '+'
