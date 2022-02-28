@@ -5,6 +5,8 @@ import discord4j.core.object.entity.Guild;
 import discord4j.discordjson.Id;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
+
 
 /**
  *  Utility methods used throughout the application. Not tied to specific operations.
@@ -16,7 +18,11 @@ public class CommonUtility {
                 .blockOptional().orElse(false);
     }
 
-    public static boolean isServerOwnerOrAdmin() {
-        return false;
+    public static String getCommandFromMessageContent(String eventMessageContent) {
+        return eventMessageContent.substring(0, eventMessageContent.indexOf(" "));
+    }
+
+    public static List<String> getArgumentsFromMessageContent(String eventMessageContent) {
+        return List.of(eventMessageContent.split(" "));
     }
 }
