@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -49,9 +50,12 @@ public abstract class MessageListener {
         if(!CommonUtility.isServerOwner(eventMessage.getGuild(), eventMessage.getUserData().id()))
             throw new UserRoleException("Server owner only. :]");
 
-        log.info("Member IS server owner. :]");
+        String commandString = CommonUtility.getCommandFromMessageContent(eventMessage.getContent());
+        List<String> arguments = CommonUtility.getArgumentsFromMessageContent(eventMessage.getContent());
 
-        return Mono.empty();
+
+
+        return null;
     }
 
     /**
