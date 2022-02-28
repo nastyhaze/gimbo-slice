@@ -4,6 +4,8 @@ import com.nastyHaze.gimboslice.common.CommonConstant;
 import com.nastyHaze.gimboslice.entity.data.Command;
 import com.nastyHaze.gimboslice.repository.CommandRepository;
 import discord4j.core.event.domain.message.MessageCreateEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
@@ -18,6 +20,8 @@ public class MessageCreateListener extends MessageListener implements Listener<M
 
     @Autowired
     private CommandRepository commandRepository;
+
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Override
     public Mono<Void> execute(MessageCreateEvent event) {
