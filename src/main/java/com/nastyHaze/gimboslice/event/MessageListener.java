@@ -2,7 +2,10 @@ package com.nastyHaze.gimboslice.event;
 
 import com.nastyHaze.gimboslice.common.CommonUtility;
 import com.nastyHaze.gimboslice.entity.data.Command;
+import com.nastyHaze.gimboslice.exception.UserRoleException;
 import discord4j.core.object.entity.Message;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Mono;
 
 import java.util.Objects;
@@ -11,6 +14,8 @@ import java.util.Objects;
  *  Processes messages from the Discord server chat.
  */
 public abstract class MessageListener {
+
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     /**
      * Processes commands from the Discord server that require text responses - ignoring bots.
@@ -30,16 +35,23 @@ public abstract class MessageListener {
                 .then();
     }
 
+    /**
+     *  Processes commands from the Discord server that require updates to the Command table.
+     *      Server owner only.
+     *  @param eventMessage
+     *  @param command
+     *  @return
+     */
     public Mono<Void> processUpdateCommand(Message eventMessage, Command command) {
         if(Objects.isNull(command))
             return Mono.empty();
 
-        if(!CommonUtility.isServerOwner(eventMessage.getGuild(), eventMessage.getAuthorAsMember()))
-            return Mono.empty();
+        if(!CommonUtility.isServerOwner(eventMessage.getGuild(), eventMessage.getUserData().id()))
+            throw new UserRoleException("Server owner only. :]");
 
+        log.info("Member IS server owner. :]");
 
-
-        return null;
+        return Mono.empty();
     }
 
     /**
