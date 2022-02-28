@@ -1,8 +1,10 @@
-package com.nastyHaze.gimboslice.event;
+package com.nastyHaze.gimboslice.event.command;
 
 
 import com.nastyHaze.gimboslice.common.CommonConstant;
 import com.nastyHaze.gimboslice.entity.data.Command;
+import com.nastyHaze.gimboslice.event.Listener;
+import com.nastyHaze.gimboslice.event.MessageListener;
 import com.nastyHaze.gimboslice.repository.CommandRepository;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import org.slf4j.Logger;
