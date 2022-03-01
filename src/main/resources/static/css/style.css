@@ -1,16 +1,7 @@
-* {
-    font-family: 'Nunito', sans-serif;
-    font-size: 24px;
-}
-
 body {
-    height: 100vh;
-    margin: 0;
-    padding: 0;
-    --bs-body-bg: black;
+    background-color: #000000 !important;
 }
 
-.header {
-    background: grey;
+.text-center {
+    text-align: center;
 }
-
