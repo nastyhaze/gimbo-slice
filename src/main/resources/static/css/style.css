@@ -1,6 +1,5 @@
 body {
     background-color: #000000 !important;
-    color: white;
     font-family: "Lato", "Helvetica Neue", Arial, Helvetica, sans-serif;
 }
 
@@ -13,7 +12,3 @@ main {
         padding-top: 0;
     }
 } */
-
-.text-center {
-    text-align: center;
-}
