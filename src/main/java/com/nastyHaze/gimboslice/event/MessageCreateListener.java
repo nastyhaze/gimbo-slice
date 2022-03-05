@@ -1,6 +1,7 @@
 package com.nastyHaze.gimboslice.event;
 
 import com.nastyHaze.gimboslice.common.CommonConstant;
+import com.nastyHaze.gimboslice.common.CommonUtility;
 import com.nastyHaze.gimboslice.entity.data.Command;
 import com.nastyHaze.gimboslice.repository.CommandRepository;
 import discord4j.core.event.domain.message.MessageCreateEvent;
@@ -28,7 +29,7 @@ public class MessageCreateListener extends MessageListener implements Listener<M
         Mono<Void> stream;
         String commandString = event.getMessage().getContent();
 
-        if(commandString.charAt(0) != CommonConstant.COMMAND_OPERATOR) {
+        /*if(commandString.charAt(0) != CommonConstant.COMMAND_OPERATOR) {
             stream = processMessageCommand(event.getMessage(), null);
         } else {
             Optional<Command> incomingCommand =
@@ -39,6 +40,25 @@ public class MessageCreateListener extends MessageListener implements Listener<M
                 // stream = processPublicError(event.getMessage());
             else
                 stream = processMessageCommand(event.getMessage(), incomingCommand.get());
+        }*/
+        if(commandString.charAt(0) == CommonConstant.COMMAND_OPERATOR) {
+            Optional<Command> incomingCommand =
+                    Optional.ofNullable(commandRepository.findByTriggerAndActiveTrue(commandString));
+
+            if (incomingCommand.isEmpty())
+                stream = processError(event.getMessage());
+            else
+                stream = processMessageCommand(event.getMessage(), incomingCommand.get());
+        } else if(commandString.charAt(0) == CommonConstant.UPDATE_OPERATOR) {
+            Optional<Command> incomingCommand =
+                    Optional.ofNullable(commandRepository.findByTriggerAndActiveTrue(CommonUtility.getCommandFromMessageContent(commandString)));
+
+            if (incomingCommand.isEmpty())
+                stream = processError(event.getMessage());
+            else
+                stream = processUpdateCommand(event.getMessage(), incomingCommand.get());
+        } else {
+            stream = processMessageCommand(event.getMessage(), null);
         }
 
         return stream;

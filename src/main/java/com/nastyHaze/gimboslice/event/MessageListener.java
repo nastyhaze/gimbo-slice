@@ -47,15 +47,15 @@ public abstract class MessageListener {
         if(Objects.isNull(command))
             return Mono.empty();
 
-        if(!CommonUtility.isServerOwner(eventMessage.getGuild(), eventMessage.getUserData().id()))
-            throw new UserRoleException("Server owner only. :]");
-
         String commandString = CommonUtility.getCommandFromMessageContent(eventMessage.getContent());
         List<String> arguments = CommonUtility.getArgumentsFromMessageContent(eventMessage.getContent());
 
-
-
-        return null;
+        return Mono.just(eventMessage)
+                .filter(message -> CommonUtility.isServerOwner(eventMessage.getGuild(), eventMessage.getUserData().id()))
+                .filter(message -> message.getContent().equalsIgnoreCase(command.getTrigger()))
+                .flatMap(Message::getChannel)
+                .flatMap(channel -> channel.createMessage(command.getResponse()))
+                .then();
     }
 
     /**

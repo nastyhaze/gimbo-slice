@@ -6,6 +6,7 @@ import discord4j.discordjson.Id;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.Optional;
 
 
 /**
@@ -19,7 +20,10 @@ public class CommonUtility {
     }
 
     public static String getCommandFromMessageContent(String eventMessageContent) {
-        return eventMessageContent.substring(0, eventMessageContent.indexOf(" "));
+        if(eventMessageContent.contains(" "))
+            return eventMessageContent.substring(0, eventMessageContent.indexOf(" "));
+
+        return eventMessageContent;
     }
 
     public static List<String> getArgumentsFromMessageContent(String eventMessageContent) {
