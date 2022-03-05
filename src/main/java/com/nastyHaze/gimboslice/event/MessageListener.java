@@ -2,10 +2,12 @@ package com.nastyHaze.gimboslice.event;
 
 import com.nastyHaze.gimboslice.common.CommonUtility;
 import com.nastyHaze.gimboslice.entity.data.Command;
-import com.nastyHaze.gimboslice.exception.UserRoleException;
+import com.nastyHaze.gimboslice.service.CommandSaveService;
 import discord4j.core.object.entity.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
@@ -15,6 +17,9 @@ import java.util.Objects;
  *  Processes messages from the Discord server chat.
  */
 public abstract class MessageListener {
+
+    @Autowired
+    private CommandSaveService commandSaveService;
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -30,7 +35,7 @@ public abstract class MessageListener {
 
         return Mono.just(eventMessage)
                 .filter(message -> message.getAuthor().map(user -> !user.isBot()).orElse(false))
-                .filter(message -> message.getContent().equalsIgnoreCase(command.getTrigger()))
+                .filter(message -> message.getContent().equalsIgnoreCase(command.getShortcut()))
                 .flatMap(Message::getChannel)
                 .flatMap(channel -> channel.createMessage(command.getResponse()))
                 .then();
@@ -43,16 +48,23 @@ public abstract class MessageListener {
      *  @param command
      *  @return
      */
+    @Transactional
     public Mono<Void> processUpdateCommand(Message eventMessage, Command command) {
         if(Objects.isNull(command))
             return Mono.empty();
 
         String commandString = CommonUtility.getCommandFromMessageContent(eventMessage.getContent());
+        // TODO: arg0 is the command...so refactor this when stable
         List<String> arguments = CommonUtility.getArgumentsFromMessageContent(eventMessage.getContent());
+
+        if(arguments.size() <= 1)
+            return Mono.empty();
+
+        commandSaveService.updateCommand(command, arguments.get(1));
 
         return Mono.just(eventMessage)
                 .filter(message -> CommonUtility.isServerOwner(eventMessage.getGuild(), eventMessage.getUserData().id()))
-                .filter(message -> message.getContent().equalsIgnoreCase(command.getTrigger()))
+                .filter(message -> message.getContent().equalsIgnoreCase(command.getShortcut()))
                 .flatMap(Message::getChannel)
                 .flatMap(channel -> channel.createMessage(command.getResponse()))
                 .then();

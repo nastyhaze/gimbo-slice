@@ -29,21 +29,9 @@ public class MessageCreateListener extends MessageListener implements Listener<M
         Mono<Void> stream;
         String commandString = event.getMessage().getContent();
 
-        /*if(commandString.charAt(0) != CommonConstant.COMMAND_OPERATOR) {
-            stream = processMessageCommand(event.getMessage(), null);
-        } else {
-            Optional<Command> incomingCommand =
-                    Optional.ofNullable(commandRepository.findByTriggerAndActiveTrue(commandString));
-
-            if (incomingCommand.isEmpty())
-                stream = processError(event.getMessage());
-                // stream = processPublicError(event.getMessage());
-            else
-                stream = processMessageCommand(event.getMessage(), incomingCommand.get());
-        }*/
         if(commandString.charAt(0) == CommonConstant.COMMAND_OPERATOR) {
             Optional<Command> incomingCommand =
-                    Optional.ofNullable(commandRepository.findByTriggerAndActiveTrue(commandString));
+                    Optional.ofNullable(commandRepository.findByShortcutAndActiveTrue(commandString));
 
             if (incomingCommand.isEmpty())
                 stream = processError(event.getMessage());
@@ -51,7 +39,7 @@ public class MessageCreateListener extends MessageListener implements Listener<M
                 stream = processMessageCommand(event.getMessage(), incomingCommand.get());
         } else if(commandString.charAt(0) == CommonConstant.UPDATE_OPERATOR) {
             Optional<Command> incomingCommand =
-                    Optional.ofNullable(commandRepository.findByTriggerAndActiveTrue(CommonUtility.getCommandFromMessageContent(commandString)));
+                    Optional.ofNullable(commandRepository.findByShortcutAndActiveTrue(CommonUtility.getCommandFromMessageContent(commandString)));
 
             if (incomingCommand.isEmpty())
                 stream = processError(event.getMessage());
