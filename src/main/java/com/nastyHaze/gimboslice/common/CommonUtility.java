@@ -27,6 +27,10 @@ public class CommonUtility {
     }
 
     public static List<String> getArgumentsFromMessageContent(String eventMessageContent) {
-        return List.of(eventMessageContent.split(" "));
+        return List.of(eventMessageContent.split(" --"));
+    }
+
+    public static String getUpdateFromMessageContent(String eventMessageContent) {
+        return eventMessageContent.substring(eventMessageContent.indexOf('\"'), eventMessageContent.lastIndexOf('\"'));
     }
 }

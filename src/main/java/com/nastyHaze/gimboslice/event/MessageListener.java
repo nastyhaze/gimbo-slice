@@ -59,8 +59,8 @@ public abstract class MessageListener {
 
         if(arguments.size() <= 1)
             return Mono.empty();
-
-        commandSaveService.updateCommand(command, arguments.get(1));
+        else if(arguments.size() == 2)
+            commandSaveService.updateCommand(command, arguments.get(1));
 
         return Mono.just(eventMessage)
                 .filter(message -> CommonUtility.isServerOwner(eventMessage.getGuild(), eventMessage.getUserData().id()))
