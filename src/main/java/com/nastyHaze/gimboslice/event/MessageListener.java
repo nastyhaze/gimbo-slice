@@ -53,8 +53,6 @@ public abstract class MessageListener {
         if(Objects.isNull(command))
             return Mono.empty();
 
-        String commandString = CommonUtility.getCommandFromMessageContent(eventMessage.getContent());
-        // TODO: arg0 is the command...so refactor this when stable
         List<String> arguments = CommonUtility.getArgumentsFromMessageContent(eventMessage.getContent());
 
         if(arguments.size() <= 1)
