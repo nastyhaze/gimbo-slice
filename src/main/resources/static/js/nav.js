@@ -12,14 +12,14 @@ var nav = '\
     <!-- Nav items -->\
     <ul class="navbar-nav mx-auto mb-2 mb-md-0">\
       <li class="nav-item">\
-        <a class="nav-link active" aria-current="page" href="#">Home</a>\
+        <a class="nav-link active" aria-current="page" href="index.html">Home</a>\
       </li>\
       <li class="nav-item">\
-        <a class="nav-link active" href="#">Commands\
+        <a class="nav-link active" href="commands.html">Commands\
         </a>\
       </li>\
       <li class="nav-item">\
-          <a class="nav-link active" href="a">About</a>\
+          <a class="nav-link active" href="about.html">About</a>\
       </li>\
     </ul>\
 \
