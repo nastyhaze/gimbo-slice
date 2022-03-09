@@ -29,7 +29,7 @@ public class MessageCreateListener extends MessageListener implements Listener<M
         Mono<Void> stream;
         String commandString = event.getMessage().getContent();
 
-        if(commandString.charAt(0) == CommonConstant.COMMAND_OPERATOR) {
+        if(commandString.charAt(0) == CommonConstant.QUERY_OPERATOR) {
             Optional<Command> incomingCommand =
                     Optional.ofNullable(commandRepository.findByShortcutAndActiveTrue(commandString));
 

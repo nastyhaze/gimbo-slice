@@ -6,6 +6,6 @@ package com.nastyHaze.gimboslice.common;
  */
 public class CommonConstant {
 
-    public static final char COMMAND_OPERATOR = '?';
+    public static final char QUERY_OPERATOR = '?';
     public static final char UPDATE_OPERATOR = '+';
 }
