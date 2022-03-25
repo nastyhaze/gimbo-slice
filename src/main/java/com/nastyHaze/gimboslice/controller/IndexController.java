@@ -1,4 +1,4 @@
-package com.nastyHaze.gimboslice;
+package com.nastyHaze.gimboslice.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
