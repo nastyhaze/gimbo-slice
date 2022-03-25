@@ -14,7 +14,7 @@ public class Command extends AbstractDomainEntity {
 
     private String name;
     private String description;
-    private String trigger;
+    private String shortcut;
     private String response;
     private boolean active;
 
@@ -25,7 +25,7 @@ public class Command extends AbstractDomainEntity {
     Command(String name, String description, String trigger, String response) {
         this.name = name;
         this.description = description;
-        this.trigger = trigger;
+        this.shortcut = trigger;
         this.response = response;
         this.active = true;
     }
@@ -46,12 +46,12 @@ public class Command extends AbstractDomainEntity {
         this.description = description;
     }
 
-    public String getTrigger() {
-        return trigger;
+    public String getShortcut() {
+        return shortcut;
     }
 
-    public void setTrigger(String trigger) {
-        this.trigger = trigger;
+    public void setShortcut(String shortcut) {
+        this.shortcut = shortcut;
     }
 
     public String getResponse() {
@@ -76,12 +76,12 @@ public class Command extends AbstractDomainEntity {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Command command = (Command) o;
-        return active == command.active && Objects.equals(name, command.name) && Objects.equals(description, command.description) && Objects.equals(trigger, command.trigger) && Objects.equals(response, command.response);
+        return active == command.active && Objects.equals(name, command.name) && Objects.equals(description, command.description) && Objects.equals(shortcut, command.shortcut) && Objects.equals(response, command.response);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), name, description, trigger, response, active);
+        return Objects.hash(super.hashCode(), name, description, shortcut, response, active);
     }
 
     @Override
@@ -89,7 +89,7 @@ public class Command extends AbstractDomainEntity {
         return "Command{" +
                 "name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", trigger='" + trigger + '\'' +
+                ", trigger='" + shortcut + '\'' +
                 ", response='" + response + '\'' +
                 ", active=" + active +
                 '}';

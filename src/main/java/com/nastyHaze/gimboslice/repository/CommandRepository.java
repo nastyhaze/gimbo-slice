@@ -13,5 +13,5 @@ public interface CommandRepository extends JpaRepository<Command, Long> {
      * @param trigger
      * @return
      */
-    public Command findByTriggerAndActiveTrue(String trigger);
+    public Command findByShortcutAndActiveTrue(String trigger);
 }
