@@ -12,9 +12,9 @@ import java.util.Objects;
 @Entity
 public class Command extends AbstractDomainEntity {
 
-    private String name;
-    private String description;
-    private String shortcut;
+    private String name;  // Used by mike to display on /commands
+    private String description; // Used by mike to display on /commands
+    private String shortcut; // Used by mike to display on /commands
     private String response;
     private boolean active;
 
