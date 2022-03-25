@@ -1,4 +1,4 @@
-package com.nastyHaze.gimboslice.event;
+package com.nastyHaze.gimboslice.service;
 
 import com.nastyHaze.gimboslice.common.CommonConstant;
 import com.nastyHaze.gimboslice.common.CommonUtility;
@@ -17,7 +17,7 @@ import java.util.Optional;
  *  Handles creating responses to Discord Message commands.
  */
 @Service
-public class MessageCreateListener extends MessageListener implements Listener<MessageCreateEvent> {
+public class MessageCreateListener extends MessageListener implements CommandResponseService<MessageCreateEvent> {
 
     @Autowired
     private CommandRepository commandRepository;

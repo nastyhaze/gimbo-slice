@@ -1,4 +1,4 @@
-package com.nastyHaze.gimboslice.event;
+package com.nastyHaze.gimboslice.service;
 
 import discord4j.core.event.domain.Event;
 import org.slf4j.Logger;
@@ -9,9 +9,9 @@ import reactor.core.publisher.Mono;
  *  Listener interface for all Message-related EventListeners.
  *  @param <T>
  */
-public interface Listener<T extends Event> {
+public interface CommandResponseService<T extends Event> {
 
-    Logger log = LoggerFactory.getLogger(Listener.class);
+    Logger log = LoggerFactory.getLogger(CommandResponseService.class);
 
     /**
      * Executes the command from Message content & provides Bot response.

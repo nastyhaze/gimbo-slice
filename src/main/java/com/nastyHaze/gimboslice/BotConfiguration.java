@@ -1,6 +1,6 @@
 package com.nastyHaze.gimboslice;
 
-import com.nastyHaze.gimboslice.event.Listener;
+import com.nastyHaze.gimboslice.service.CommandResponseService;
 import discord4j.core.DiscordClientBuilder;
 import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.Event;
@@ -32,7 +32,7 @@ public class BotConfiguration {
      * @return
      */
     @Bean
-    public <T extends Event> GatewayDiscordClient gatewayDiscordClient(List<Listener<T>> listeners) {
+    public <T extends Event> GatewayDiscordClient gatewayDiscordClient(List<CommandResponseService<T>> listeners) {
         GatewayDiscordClient client = null;
 
         try {
@@ -41,7 +41,7 @@ public class BotConfiguration {
                     .login()
                     .block();
 
-            for(Listener<T> listener : listeners) {
+            for(CommandResponseService<T> listener : listeners) {
                 client.on(listener.getEventType())
                         .flatMap(listener::execute)
                         .onErrorResume(listener::handleError)
