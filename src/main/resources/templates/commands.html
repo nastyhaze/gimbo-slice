@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 
   <meta charset="UTF-8">
@@ -38,6 +38,14 @@
         <div class="col-md-4">
           <div class="p-3">Show the currently set group goal</div>
         </div>
+      </div>
+
+      <div>
+        <tr th:each="command : ${commands}">
+          <td th:text="${command.id}">1</td>
+          <td><a href="#" th:text="${command.XXXX}">Title ...</a></td>
+          <td th:text="${command.XXXX}">Text ...</td>
+        </tr>
       </div>
   
     </div>
