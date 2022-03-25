@@ -40,11 +40,12 @@
         </div>
       </div>
 
+      <!-- TEST SAMPLE CODE -->
       <div>
         <tr th:each="command : ${commands}">
-          <td th:text="${command.id}">1</td>
-          <td><a href="#" th:text="${command.XXXX}">Title ...</a></td>
-          <td th:text="${command.XXXX}">Text ...</td>
+          <td th:text="${command.id}"></td>
+          <td><a href="#" th:text="${command.shortcut}"></a></td>
+          <td th:text="${command.response}"></td>
         </tr>
       </div>
   
