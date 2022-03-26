@@ -23,6 +23,9 @@ public class DefaultController {
         return "index";
     }
 
+    @RequestMapping(value="/about", method = RequestMethod.GET)
+    public String about() { return "about";}
+
     // TEST SAMPLE CODE
     public class Command {
         int id;
