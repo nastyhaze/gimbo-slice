@@ -1,8 +1,11 @@
 package com.nastyHaze.gimboslice.entity.data;
 
+import com.nastyHaze.gimboslice.constant.ResponseType;
 import com.nastyHaze.gimboslice.entity.AbstractDomainEntity;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.util.Objects;
 
 
@@ -13,20 +16,29 @@ import java.util.Objects;
 public class Command extends AbstractDomainEntity {
 
     private String name;
+
     private String description;
+
     private String shortcut;
+
     private String response;
+
+    @Enumerated(EnumType.STRING)
+    private ResponseType responseType;
+
     private boolean active;
+
 
     Command() {
         super();
     }
 
-    Command(String name, String description, String trigger, String response) {
+    Command(String name, String description, String shortcut, String response, ResponseType responseType) {
         this.name = name;
         this.description = description;
-        this.shortcut = trigger;
+        this.shortcut = shortcut;
         this.response = response;
+        this.responseType = responseType;
         this.active = true;
     }
 
@@ -62,6 +74,14 @@ public class Command extends AbstractDomainEntity {
         this.response = response;
     }
 
+    public ResponseType getResponseType() {
+        return responseType;
+    }
+
+    public void setResponseType(ResponseType responseType) {
+        this.responseType = responseType;
+    }
+
     public boolean isActive() {
         return active;
     }
@@ -76,12 +96,17 @@ public class Command extends AbstractDomainEntity {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Command command = (Command) o;
-        return active == command.active && Objects.equals(name, command.name) && Objects.equals(description, command.description) && Objects.equals(shortcut, command.shortcut) && Objects.equals(response, command.response);
+        return active == command.active
+                && Objects.equals(name, command.name)
+                && Objects.equals(description, command.description)
+                && Objects.equals(shortcut, command.shortcut)
+                && Objects.equals(response, command.response)
+                && Objects.equals(responseType, command.responseType);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), name, description, shortcut, response, active);
+        return Objects.hash(super.hashCode(), name, description, shortcut, response, responseType, active);
     }
 
     @Override
@@ -91,6 +116,7 @@ public class Command extends AbstractDomainEntity {
                 ", description='" + description + '\'' +
                 ", trigger='" + shortcut + '\'' +
                 ", response='" + response + '\'' +
+                ", responseType='" + responseType + '\'' +
                 ", active=" + active +
                 '}';
     }

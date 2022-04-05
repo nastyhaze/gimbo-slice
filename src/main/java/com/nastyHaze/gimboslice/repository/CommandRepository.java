@@ -10,8 +10,8 @@ public interface CommandRepository extends JpaRepository<Command, Long> {
 
     /**
      * Finds and returns the Command object associated with the given trigger String.
-     * @param trigger
+     * @param shortcut
      * @return
      */
-    public Command findByShortcutAndActiveTrue(String trigger);
+    public Command findByShortcutAndActiveTrue(String shortcut);
 }
