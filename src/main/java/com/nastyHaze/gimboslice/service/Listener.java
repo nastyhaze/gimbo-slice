@@ -9,9 +9,9 @@ import reactor.core.publisher.Mono;
  *  Listener interface for all Message-related EventListeners.
  *  @param <T>
  */
-public interface CommandResponseService<T extends Event> {
+public interface Listener<T extends Event> {
 
-    Logger log = LoggerFactory.getLogger(CommandResponseService.class);
+    Logger log = LoggerFactory.getLogger(Listener.class);
 
     /**
      * Executes the command from Message content & provides Bot response.

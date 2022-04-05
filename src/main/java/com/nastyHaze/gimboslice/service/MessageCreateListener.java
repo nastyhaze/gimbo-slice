@@ -1,55 +1,49 @@
 package com.nastyHaze.gimboslice.service;
 
-import com.nastyHaze.gimboslice.common.CommonConstant;
-import com.nastyHaze.gimboslice.common.CommonUtility;
-import com.nastyHaze.gimboslice.entity.data.Command;
-import com.nastyHaze.gimboslice.repository.CommandRepository;
+import com.nastyHaze.gimboslice.constant.Operator;
+import com.nastyHaze.gimboslice.utility.CommonUtility;
 import discord4j.core.event.domain.message.MessageCreateEvent;
+import discord4j.core.object.entity.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
-import java.util.Optional;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
-/**
- *  Handles creating responses to Discord Message commands.
- */
+import static com.nastyHaze.gimboslice.utility.CommonUtility.processError;
+
+
 @Service
-public class MessageCreateListener extends MessageListener implements CommandResponseService<MessageCreateEvent> {
+public class MessageCreateListener implements Listener<MessageCreateEvent> {
 
-    @Autowired
-    private CommandRepository commandRepository;
+
+
+    private Map<Operator, CommandService> commandServiceMap;
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
+    @Bean
+    private Map<Operator, CommandService> setCommandServiceMap(List<CommandService> commandServiceList) {
+        commandServiceMap = commandServiceList.stream().collect(Collectors.toMap(CommandService::getOperator, Function.identity()));
+        return commandServiceMap;
+    }
+
     @Override
     public Mono<Void> execute(MessageCreateEvent event) {
-        Mono<Void> stream;
-        String commandString = event.getMessage().getContent();
+        Message eventMessage = event.getMessage();
+        CommandService commandService = getCommandServiceFromMessage(eventMessage);
 
-        if(commandString.charAt(0) == CommonConstant.QUERY_OPERATOR) {
-            Optional<Command> incomingCommand =
-                    Optional.ofNullable(commandRepository.findByShortcutAndActiveTrue(commandString));
-
-            if (incomingCommand.isEmpty())
-                stream = processError(event.getMessage());
-            else
-                stream = processMessageCommand(event.getMessage(), incomingCommand.get());
-        } else if(commandString.charAt(0) == CommonConstant.UPDATE_OPERATOR) {
-            Optional<Command> incomingCommand =
-                    Optional.ofNullable(commandRepository.findByShortcutAndActiveTrue(CommonUtility.getCommandFromMessageContent(commandString)));
-
-            if (incomingCommand.isEmpty())
-                stream = processError(event.getMessage());
-            else
-                stream = processUpdateCommand(event.getMessage(), incomingCommand.get());
-        } else {
-            stream = processMessageCommand(event.getMessage(), null);
-        }
-
-        return stream;
+        return Objects.nonNull(commandService)
+                ? commandService.processCommand(eventMessage)
+                : Mono.empty();
     }
 
     @Override
@@ -57,4 +51,14 @@ public class MessageCreateListener extends MessageListener implements CommandRes
         return MessageCreateEvent.class;
     }
 
+    private CommandService getCommandServiceFromMessage(Message eventMessage) {
+        return commandServiceMap.get(getOperatorFromMessage(eventMessage));
+    }
+
+    private Operator getOperatorFromMessage(Message message) {
+        return Arrays.stream(Operator.values())
+                .filter(val -> val.opCode().equals(message.getContent().substring(0, 1)))
+                .findFirst()
+                .orElse(null);
+    }
 }
