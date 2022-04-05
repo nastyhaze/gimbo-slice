@@ -1,12 +1,10 @@
 package com.nastyHaze.gimboslice.service;
 
 import com.nastyHaze.gimboslice.constant.Operator;
-import com.nastyHaze.gimboslice.utility.CommonUtility;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
@@ -17,8 +15,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-
-import static com.nastyHaze.gimboslice.utility.CommonUtility.processError;
 
 
 @Service

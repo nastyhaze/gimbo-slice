@@ -2,7 +2,7 @@ package com.nastyHaze.gimboslice.entity.data;
 
 import com.nastyHaze.gimboslice.entity.AbstractDomainEntity;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
 import java.util.Objects;
 
 
