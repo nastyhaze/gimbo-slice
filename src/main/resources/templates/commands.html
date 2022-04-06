@@ -22,9 +22,10 @@
   <main class="text-white">
 
     <div class="container">
+      <!-- Label row -->
       <div class="row row-cols-3 align-items-center justify-content-center mb-3">
         <!-- Column 1 -->
-        <div class="col-md-2 border-end text-center">
+        <div class="col-md-3 border-end text-center">
           <div class="p-3"><strong>Name</strong></div>
         </div>
         <!-- Column 2 -->
@@ -37,30 +38,21 @@
         </div>
       </div>
 
-      <div class="row row-cols-3 align-items-center justify-content-center mb-3">
+      <!-- Generated row content -->
+      <div th:each="command : ${commands}" class="row row-cols-3 align-items-center justify-content-center mb-3">
         <!-- Column 1 -->
-        <div class="col-md-2 border-end text-center">
-          <div class="p-3"><strong>command</strong></div>
+        <div class="col-md-3 border-end text-center">
+          <div th:text="${command.id}" class="p-3"></div>
         </div>
         <!-- Column 2 -->
         <div class="col-md-3 text-center border-end">
-          <div class="p-3 user-select-all">?groupGoal</div>
+          <div th:text="${command.shortcut}" class="p-3 user-select-all">?</div>
         </div>
         <!-- Column 3 -->
         <div class="col-md-4">
-          <div class="p-3">Show the currently set group goal</div>
+          <div th:text="${command.response}" class="p-3"></div>
         </div>
       </div>
-
-      <!-- TEST SAMPLE CODE -->
-      <div>
-        <tr th:each="command : ${commands}">
-          <td th:text="${command.id}"></td>
-          <td><a href="#" th:text="${command.shortcut}"></a></td>
-          <td th:text="${command.response}"></td>
-        </tr>
-      </div>
-  
     </div>
   </main>
 
