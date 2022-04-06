@@ -1,4 +1,4 @@
-package com.nastyHaze.gimboslice.event;
+package com.nastyHaze.gimboslice.service;
 
 import discord4j.core.event.domain.Event;
 import org.slf4j.Logger;
