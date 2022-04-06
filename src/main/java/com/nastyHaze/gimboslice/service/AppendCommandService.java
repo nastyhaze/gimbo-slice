@@ -3,7 +3,7 @@ package com.nastyHaze.gimboslice.service;
 import com.nastyHaze.gimboslice.constant.Operator;
 import com.nastyHaze.gimboslice.constant.ResponseType;
 import com.nastyHaze.gimboslice.entity.data.Command;
-import com.nastyHaze.gimboslice.exception.AppendCommandException;
+import com.nastyHaze.gimboslice.exception.CommandExecutionException;
 import com.nastyHaze.gimboslice.repository.CommandRepository;
 import discord4j.core.object.entity.Message;
 import org.slf4j.Logger;
@@ -15,6 +15,7 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 import java.util.Objects;
 
+import static com.nastyHaze.gimboslice.constant.CommonConstant.INVALID_COMMAND_ERROR_MESSAGE;
 import static com.nastyHaze.gimboslice.utility.CommonUtility.*;
 
 /**
@@ -39,17 +40,15 @@ public class AppendCommandService extends CommandService {
 
         // TODO: refactor the if-else somehow
         if(Objects.isNull(inCommand) || !Objects.equals(ResponseType.LIST, inCommand.getResponseType())) {
-            stream = processError(eventMessage);
+            stream = processError(eventMessage, INVALID_COMMAND_ERROR_MESSAGE);
         } else {
             try {
-                Command updatedCommand = commandAppend(inCommand, getArgumentsFromMessageContent(messageContent));
+                Command updatedCommand = commandAppendElement(inCommand, getArgumentsFromMessageContent(messageContent));
 
-                commandRepository.save(updatedCommand);
-
-                stream = processSuccess(eventMessage, Operator.APPEND);
+                stream = save(eventMessage, updatedCommand);
             } catch (Exception e) {
                 log.error("Error in AppendCommandService: " + e.getMessage());
-                throw new AppendCommandException("Error in AppendCommandService: " + e.getMessage());
+                throw new CommandExecutionException("Error in AppendCommandService: " + e.getMessage());
             }
         }
 
@@ -61,7 +60,7 @@ public class AppendCommandService extends CommandService {
         return Operator.APPEND;
     }
 
-    private Command commandAppend(Command command, List<String> argumentList) {
+    private Command commandAppendElement(Command command, List<String> argumentList) {
         argumentList.forEach(arg ->
                 command.setResponse(command.getResponse() + "," + arg));
 

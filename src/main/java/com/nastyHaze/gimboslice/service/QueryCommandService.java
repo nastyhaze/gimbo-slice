@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import static com.nastyHaze.gimboslice.constant.CommonConstant.INVALID_COMMAND_ERROR_MESSAGE;
 import static com.nastyHaze.gimboslice.utility.CommonUtility.getCommandShortcutFromMessageContent;
 import static com.nastyHaze.gimboslice.utility.CommonUtility.processError;
 
@@ -32,7 +33,7 @@ public class QueryCommandService extends CommandService {
         Command command = commandRepository.findByShortcutAndActiveTrue(commandShortcut);
 
         return Objects.isNull(command)
-                ? processError(eventMessage)
+                ? processError(eventMessage, INVALID_COMMAND_ERROR_MESSAGE)
                 : Mono.just(eventMessage)
                     .filter(message -> message.getAuthor().map(user -> !user.isBot()).orElse(false))
                     .flatMap(Message::getChannel)
@@ -49,6 +50,10 @@ public class QueryCommandService extends CommandService {
         String formattedResponse = null;
 
         switch(responseType) {
+            case SIMPLE:
+                formattedResponse = response;
+                break;
+
             case LIST:
                 formattedResponse = formatListResponse(response);
                 break;
@@ -71,6 +76,6 @@ public class QueryCommandService extends CommandService {
 
     private String formatTemplateResponse(String response) {
         // TODO
-        return null;
+        return response;
     }
 }

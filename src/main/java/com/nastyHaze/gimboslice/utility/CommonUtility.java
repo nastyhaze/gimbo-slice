@@ -38,7 +38,12 @@ public class CommonUtility {
     }
 
     public static List<String> getArgumentsFromMessageContent(String eventMessageContent) {
-        String arguments = eventMessageContent.substring(eventMessageContent.indexOf("--")).trim();
+        String arguments;
+        int argumentsIndex = eventMessageContent.indexOf("--");
+
+        arguments = argumentsIndex < 0
+                ? "" 
+                : eventMessageContent.substring(argumentsIndex).trim();
 
         return Arrays.stream(arguments.split("--"))
                 .filter(str -> !str.isEmpty())
@@ -53,11 +58,11 @@ public class CommonUtility {
                 .then();
     }
 
-    public static Mono<Void> processError(Message errorMessage) {
-        return Mono.just(errorMessage)
+    public static Mono<Void> processError(Message eventMessage, String errorMessage) {
+        return Mono.just(eventMessage)
                 .filter(message -> message.getAuthor().map(user -> !user.isBot()).orElse(false))
                 .flatMap(Message::getChannel)
-                .flatMap(channel -> channel.createMessage("Whoops! Invalid command, ***I D I O T***."))
+                .flatMap(channel -> channel.createMessage(errorMessage))
                 .then();
     }
 }
