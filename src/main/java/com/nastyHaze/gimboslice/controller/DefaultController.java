@@ -68,7 +68,7 @@ public class DefaultController {
 
         List<Command> commands = new ArrayList<>();
         for(int i = 0; i < 10; i++) {
-            Command temp = new Command(i, "shortcut: " + i + "\n", "response: " + i + "\n");
+            Command temp = new Command(i, "shortcut " + i, "response " + i);
             commands.add(temp);
         }
 
