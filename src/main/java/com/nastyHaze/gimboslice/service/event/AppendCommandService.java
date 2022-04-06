@@ -1,4 +1,4 @@
-package com.nastyHaze.gimboslice.service;
+package com.nastyHaze.gimboslice.service.event;
 
 import com.nastyHaze.gimboslice.constant.Operator;
 import com.nastyHaze.gimboslice.constant.ResponseType;
@@ -19,10 +19,10 @@ import static com.nastyHaze.gimboslice.constant.CommonConstant.INVALID_COMMAND_E
 import static com.nastyHaze.gimboslice.utility.CommonUtility.*;
 
 /**
- * Handles template response updates.
+ * Handles appending elements to simple list responses.
  */
 @Service
-public class UpdateCommandService extends CommandService {
+public class AppendCommandService extends CommandService {
 
     @Autowired
     private CommandRepository commandRepository;
@@ -35,20 +35,20 @@ public class UpdateCommandService extends CommandService {
         Mono<Void> stream;
 
         String messageContent = eventMessage.getContent();
-        String commandShortcut = getCommandShortcutFromMessageContent(eventMessage.getContent());
+        String commandShortcut = getCommandShortcutFromMessageContent(messageContent);
         Command inCommand = commandRepository.findByShortcutAndActiveTrue(commandShortcut);
 
         // TODO: refactor the if-else somehow
-        if(Objects.isNull(inCommand) || ResponseType.LIST.equals(inCommand.getResponseType())) {
+        if(Objects.isNull(inCommand) || !Objects.equals(ResponseType.LIST, inCommand.getResponseType())) {
             stream = processError(eventMessage, INVALID_COMMAND_ERROR_MESSAGE);
         } else {
             try {
-                Command updatedCommand = updateCommandResponse(inCommand, getArgumentsFromMessageContent(messageContent));
+                Command updatedCommand = commandAppendElement(inCommand, getArgumentsFromMessageContent(messageContent));
 
                 stream = save(eventMessage, updatedCommand);
             } catch (Exception e) {
-                log.error("Error in UpdateCommandService: " + e.getMessage());
-                throw new CommandExecutionException("Error in UpdateCommandService: " + e.getMessage());
+                log.error("Error in AppendCommandService: " + e.getMessage());
+                throw new CommandExecutionException("Error in AppendCommandService: " + e.getMessage());
             }
         }
 
@@ -57,15 +57,12 @@ public class UpdateCommandService extends CommandService {
 
     @Override
     public Operator getOperator() {
-        return Operator.UPDATE;
+        return Operator.APPEND;
     }
 
-    private Command updateCommandResponse(Command command, List<String> argumentList) {
-        if(argumentList.size() != 1) {
-            command = null;
-        } else {
-            command.setResponse(argumentList.get(0));
-        }
+    private Command commandAppendElement(Command command, List<String> argumentList) {
+        argumentList.forEach(arg ->
+                command.setResponse(command.getResponse() + "," + arg));
 
         return command;
     }

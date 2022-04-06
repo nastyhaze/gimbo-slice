@@ -1,4 +1,4 @@
-package com.nastyHaze.gimboslice.service;
+package com.nastyHaze.gimboslice.service.event;
 
 import com.nastyHaze.gimboslice.constant.Operator;
 import com.nastyHaze.gimboslice.constant.ResponseType;
@@ -14,15 +14,16 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static com.nastyHaze.gimboslice.constant.CommonConstant.INVALID_COMMAND_ERROR_MESSAGE;
 import static com.nastyHaze.gimboslice.utility.CommonUtility.*;
 
 /**
- * Handles appending elements to simple list responses.
+ * Handles removing elements from simple list responses.
  */
 @Service
-public class AppendCommandService extends CommandService {
+public class RemoveCommandService extends CommandService {
 
     @Autowired
     private CommandRepository commandRepository;
@@ -35,7 +36,7 @@ public class AppendCommandService extends CommandService {
         Mono<Void> stream;
 
         String messageContent = eventMessage.getContent();
-        String commandShortcut = getCommandShortcutFromMessageContent(messageContent);
+        String commandShortcut = getCommandShortcutFromMessageContent(eventMessage.getContent());
         Command inCommand = commandRepository.findByShortcutAndActiveTrue(commandShortcut);
 
         // TODO: refactor the if-else somehow
@@ -43,12 +44,12 @@ public class AppendCommandService extends CommandService {
             stream = processError(eventMessage, INVALID_COMMAND_ERROR_MESSAGE);
         } else {
             try {
-                Command updatedCommand = commandAppendElement(inCommand, getArgumentsFromMessageContent(messageContent));
+                Command updatedCommand = commandRemoveElement(inCommand, getArgumentsFromMessageContent(messageContent));
 
                 stream = save(eventMessage, updatedCommand);
             } catch (Exception e) {
-                log.error("Error in AppendCommandService: " + e.getMessage());
-                throw new CommandExecutionException("Error in AppendCommandService: " + e.getMessage());
+                log.error("Error in RemoveCommandService: " + e.getMessage());
+                throw new CommandExecutionException("Error in RemoveCommandService: " + e.getMessage());
             }
         }
 
@@ -57,12 +58,24 @@ public class AppendCommandService extends CommandService {
 
     @Override
     public Operator getOperator() {
-        return Operator.APPEND;
+        return Operator.REMOVE;
     }
 
-    private Command commandAppendElement(Command command, List<String> argumentList) {
-        argumentList.forEach(arg ->
-                command.setResponse(command.getResponse() + "," + arg));
+    // TODO: find an actual solution to this regex nightmare. aka templating
+    private Command commandRemoveElement(Command command, List<String> argumentList) {
+        String commandResponse = command.getResponse();
+
+        String newResponse = argumentList.stream()
+                .map(arg -> commandResponse.replaceFirst(",*" + arg, ""))
+                .collect(Collectors.toList())
+                .toString()
+                .replaceAll("\\[|\\]|\\,", "");
+
+        if(!Objects.equals(newResponse, commandResponse)) {
+            command.setResponse(newResponse);
+        } else {
+            command = null;
+        }
 
         return command;
     }

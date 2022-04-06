@@ -1,6 +1,6 @@
 package com.nastyHaze.gimboslice;
 
-import com.nastyHaze.gimboslice.service.Listener;
+import com.nastyHaze.gimboslice.service.event.Listener;
 import discord4j.core.DiscordClientBuilder;
 import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.Event;

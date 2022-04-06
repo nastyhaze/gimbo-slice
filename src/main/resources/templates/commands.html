@@ -42,15 +42,15 @@
       <div th:each="command : ${commands}" class="row row-cols-3 align-items-center justify-content-center mb-3">
         <!-- Column 1 -->
         <div class="col-md-3 border-end text-center">
-          <div th:text="${command.id}" class="p-3"></div>
+          <div th:text="${command.name}" class="p-3"></div>
         </div>
         <!-- Column 2 -->
         <div class="col-md-3 text-center border-end">
-          <div th:text="${command.shortcut}" class="p-3 user-select-all">?</div>
+          <div th:text="${command.command}" class="p-3 user-select-all">?</div>
         </div>
         <!-- Column 3 -->
         <div class="col-md-4">
-          <div th:text="${command.response}" class="p-3"></div>
+          <div th:text="${command.description}" class="p-3"></div>
         </div>
       </div>
     </div>

@@ -1,4 +1,4 @@
-package com.nastyHaze.gimboslice.service;
+package com.nastyHaze.gimboslice.service.event;
 
 import com.nastyHaze.gimboslice.constant.Operator;
 import com.nastyHaze.gimboslice.constant.ResponseType;
@@ -14,16 +14,15 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import static com.nastyHaze.gimboslice.constant.CommonConstant.INVALID_COMMAND_ERROR_MESSAGE;
 import static com.nastyHaze.gimboslice.utility.CommonUtility.*;
 
 /**
- * Handles removing elements from simple list responses.
+ * Handles template response updates.
  */
 @Service
-public class RemoveCommandService extends CommandService {
+public class UpdateCommandService extends CommandService {
 
     @Autowired
     private CommandRepository commandRepository;
@@ -40,16 +39,16 @@ public class RemoveCommandService extends CommandService {
         Command inCommand = commandRepository.findByShortcutAndActiveTrue(commandShortcut);
 
         // TODO: refactor the if-else somehow
-        if(Objects.isNull(inCommand) || !Objects.equals(ResponseType.LIST, inCommand.getResponseType())) {
+        if(Objects.isNull(inCommand) || ResponseType.LIST.equals(inCommand.getResponseType())) {
             stream = processError(eventMessage, INVALID_COMMAND_ERROR_MESSAGE);
         } else {
             try {
-                Command updatedCommand = commandRemoveElement(inCommand, getArgumentsFromMessageContent(messageContent));
+                Command updatedCommand = updateCommandResponse(inCommand, getArgumentsFromMessageContent(messageContent));
 
                 stream = save(eventMessage, updatedCommand);
             } catch (Exception e) {
-                log.error("Error in RemoveCommandService: " + e.getMessage());
-                throw new CommandExecutionException("Error in RemoveCommandService: " + e.getMessage());
+                log.error("Error in UpdateCommandService: " + e.getMessage());
+                throw new CommandExecutionException("Error in UpdateCommandService: " + e.getMessage());
             }
         }
 
@@ -58,23 +57,14 @@ public class RemoveCommandService extends CommandService {
 
     @Override
     public Operator getOperator() {
-        return Operator.REMOVE;
+        return Operator.UPDATE;
     }
 
-    // TODO: find an actual solution to this regex nightmare. aka templating
-    private Command commandRemoveElement(Command command, List<String> argumentList) {
-        String commandResponse = command.getResponse();
-
-        String newResponse = argumentList.stream()
-                .map(arg -> commandResponse.replaceFirst(",*" + arg, ""))
-                .collect(Collectors.toList())
-                .toString()
-                .replaceAll("\\[|\\]|\\,", "");
-
-        if(!Objects.equals(newResponse, commandResponse)) {
-            command.setResponse(newResponse);
-        } else {
+    private Command updateCommandResponse(Command command, List<String> argumentList) {
+        if(argumentList.size() != 1) {
             command = null;
+        } else {
+            command.setResponse(argumentList.get(0));
         }
 
         return command;

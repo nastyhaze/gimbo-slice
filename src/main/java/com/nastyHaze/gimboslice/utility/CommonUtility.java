@@ -22,6 +22,7 @@ public class CommonUtility {
     @Autowired
     private CommandRepository commandRepository;
 
+
     public static boolean isServerOwner(Mono<Guild> server, Id memberId) {
         return server.map(guild -> guild.getOwnerId().equals(Snowflake.of(memberId)))
                 .blockOptional().orElse(false);
