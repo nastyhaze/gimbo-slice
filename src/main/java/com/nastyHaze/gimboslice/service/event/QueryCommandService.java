@@ -10,12 +10,13 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import static com.nastyHaze.gimboslice.constant.CommonConstant.INFO_REQUEST;
 import static com.nastyHaze.gimboslice.constant.CommonConstant.INVALID_COMMAND_ERROR_MESSAGE;
-import static com.nastyHaze.gimboslice.utility.CommonUtility.getCommandShortcutFromMessageContent;
-import static com.nastyHaze.gimboslice.utility.CommonUtility.processError;
+import static com.nastyHaze.gimboslice.utility.CommonUtility.*;
 
 /**
  * Handles responses that requires fetching records from the database.
@@ -29,16 +30,19 @@ public class QueryCommandService extends CommandService {
 
     @Override
     public Mono<Void> processCommand(Message eventMessage) {
-        String commandShortcut = getCommandShortcutFromMessageContent(eventMessage.getContent());
-        Command command = commandRepository.findByShortcutAndActiveTrue(commandShortcut);
+        String messageContent = eventMessage.getContent();
+        String commandShortcut = getCommandShortcutFromMessageContent(messageContent);
+        Command inCommand = commandRepository.findByShortcutAndActiveTrue(commandShortcut);
 
-        return Objects.isNull(command)
+        List<String> argumentList = getArgumentsFromMessageContent(messageContent);
+
+        return Objects.isNull(inCommand)
                 ? processError(eventMessage, INVALID_COMMAND_ERROR_MESSAGE)
                 : Mono.just(eventMessage)
-                    .filter(message -> message.getAuthor().map(user -> !user.isBot()).orElse(false))
-                    .flatMap(Message::getChannel)
-                    .flatMap(channel -> channel.createMessage(formatMessage(command.getResponseType(), command.getResponse())))
-                    .then();
+                .filter(message -> message.getAuthor().map(user -> !user.isBot()).orElse(false))
+                .flatMap(Message::getChannel)
+                .flatMap(channel -> channel.createMessage(determineContent(argumentList, inCommand)))
+                .then();
     }
 
     @Override
@@ -66,9 +70,20 @@ public class QueryCommandService extends CommandService {
         return formattedResponse;
     }
 
+    private String determineContent(List<String> argumentList, Command command) {
+        String response;
+        if(!argumentList.isEmpty() && Objects.equals(INFO_REQUEST, argumentList.get(0))) {
+            response = command.getDescription();
+        } else {
+            response = formatMessage(command.getResponseType(), command.getResponse());
+        }
+
+        return response;
+    }
+
     private String formatListResponse(String response) {
         return Arrays.stream(response.split(","))
-                .map(element -> "-> " + element)
+                .map(element -> "-> " + element + "\n")
                 .collect(Collectors.toList())
                 .toString()
                 .replaceAll("\\[|\\]|\\,", "");
