@@ -14,6 +14,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.nastyHaze.gimboslice.constant.CommonConstant.INVALID_COMMAND_ERROR_MESSAGE;
@@ -64,19 +65,27 @@ public class RemoveCommandService extends CommandService {
     // TODO: find an actual solution to this regex nightmare. aka templating
     private Command commandRemoveElement(Command command, List<String> argumentList) {
         String commandResponse = command.getResponse();
+        ResponseType commandResponseType = command.getResponseType();
 
         String newResponse = argumentList.stream()
+                .filter(arg -> containsElement(commandResponseType, commandResponse, arg))
                 .map(arg -> commandResponse.replaceFirst(",*" + arg, ""))
                 .collect(Collectors.toList())
                 .toString()
                 .replaceAll("\\[|\\]|\\,", "");
 
-        if(!Objects.equals(newResponse, commandResponse)) {
-            command.setResponse(newResponse);
-        } else {
+        if(Objects.equals(newResponse, commandResponse) || newResponse.isEmpty()) {
             command = null;
+        } else {
+            command.setResponse(newResponse);
         }
 
         return command;
+    }
+
+    private boolean containsElement(ResponseType responseType, String commandResponse, String element) {
+        List<String> commandResponseList = getCommandResponseAsList(responseType, commandResponse);
+
+        return Objects.nonNull(commandResponseList) && commandResponseList.contains(element);
     }
 }
