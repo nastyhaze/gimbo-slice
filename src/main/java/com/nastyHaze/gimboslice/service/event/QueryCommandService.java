@@ -1,9 +1,11 @@
 package com.nastyHaze.gimboslice.service.event;
 
+import com.nastyHaze.gimboslice.constant.CommandName;
 import com.nastyHaze.gimboslice.constant.Operator;
 import com.nastyHaze.gimboslice.constant.ResponseType;
 import com.nastyHaze.gimboslice.entity.data.Command;
 import com.nastyHaze.gimboslice.repository.CommandRepository;
+import com.nastyHaze.gimboslice.service.web.CommandListingService;
 import discord4j.core.object.entity.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,9 @@ public class QueryCommandService extends CommandService {
 
     @Autowired
     private CommandRepository commandRepository;
+
+    @Autowired
+    private CommandListingService commandListingService;
 
 
     @Override
@@ -74,6 +79,8 @@ public class QueryCommandService extends CommandService {
         String response;
         if(!argumentList.isEmpty() && Objects.equals(INFO_REQUEST, argumentList.get(0))) {
             response = command.getDescription();
+        } else if(CommandName.COMMANDS.equals(command.getName())) {
+            response = commandListingService.retrieveAllCommands().toString();
         } else {
             response = formatMessage(command.getResponseType(), command.getResponse());
         }
