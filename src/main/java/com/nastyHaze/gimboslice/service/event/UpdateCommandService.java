@@ -38,7 +38,6 @@ public class UpdateCommandService extends CommandService {
         String commandShortcut = getCommandShortcutFromMessageContent(eventMessage.getContent());
         Command inCommand = commandRepository.findByShortcutAndActiveTrue(commandShortcut);
 
-        // TODO: refactor the if-else somehow
         if(Objects.isNull(inCommand) || ResponseType.LIST.equals(inCommand.getResponseType())) {
             stream = processError(eventMessage, INVALID_COMMAND_ERROR_MESSAGE);
         } else {

@@ -38,7 +38,6 @@ public class AppendCommandService extends CommandService {
         String commandShortcut = getCommandShortcutFromMessageContent(messageContent);
         Command inCommand = commandRepository.findByShortcutAndActiveTrue(commandShortcut);
 
-        // TODO: refactor the if-else somehow
         if(Objects.isNull(inCommand) || !Objects.equals(ResponseType.LIST, inCommand.getResponseType())) {
             stream = processError(eventMessage, INVALID_COMMAND_ERROR_MESSAGE);
         } else {
