@@ -1,6 +1,7 @@
 package com.nastyHaze.gimboslice.utility;
 
 import com.nastyHaze.gimboslice.constant.Operator;
+import com.nastyHaze.gimboslice.constant.ResponseType;
 import com.nastyHaze.gimboslice.repository.CommandRepository;
 import discord4j.common.util.Snowflake;
 import discord4j.core.object.entity.Guild;
@@ -65,5 +66,13 @@ public class CommonUtility {
                 .flatMap(Message::getChannel)
                 .flatMap(channel -> channel.createMessage(errorMessage))
                 .then();
+    }
+
+    public static List<String> getCommandResponseAsList(ResponseType responseType, String commandResponse) {
+        if(!ResponseType.LIST.equals(responseType)) {
+            return null;
+        }
+
+        return Arrays.asList(commandResponse.split(","));
     }
 }

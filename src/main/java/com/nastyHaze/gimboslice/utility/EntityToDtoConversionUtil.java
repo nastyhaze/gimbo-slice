@@ -8,7 +8,7 @@ public class EntityToDtoConversionUtil {
     public static CommandDTO convertCommand(Command command) {
         CommandDTO convertedCommand = new CommandDTO();
 
-        convertedCommand.setName(command.getName());
+        convertedCommand.setName(command.getName().desc());
         convertedCommand.setDescription(command.getDescription());
         convertedCommand.setCommand(command.getShortcut());
 
