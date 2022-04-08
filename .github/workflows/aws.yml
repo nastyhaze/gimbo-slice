@@ -10,7 +10,7 @@ on:
 
 env:
   AWS_REGION: us-west-2
-  ECR_REPOSITORY: dwalkercs_images
+  ECR_REPOSITORY: public.ecr.aws/r3l5q0z7/dwalkercs_images
   ECS_SERVICE: service_gimbo-slice
   ECS_CLUSTER: dwalkercs-application-cluster
   ECS_TASK_DEFINITION: .aws/taskdef.json
