@@ -1,5 +1,6 @@
 package com.nastyHaze.gimboslice.entity.data;
 
+import com.nastyHaze.gimboslice.constant.CommandName;
 import com.nastyHaze.gimboslice.constant.ResponseType;
 import com.nastyHaze.gimboslice.entity.AbstractDomainEntity;
 
@@ -15,7 +16,8 @@ import java.util.Objects;
 @Entity
 public class Command extends AbstractDomainEntity {
 
-    private String name;
+    @Enumerated(EnumType.STRING)
+    private CommandName name;
 
     private String description;
 
@@ -33,7 +35,7 @@ public class Command extends AbstractDomainEntity {
         super();
     }
 
-    Command(String name, String description, String shortcut, String response, ResponseType responseType) {
+    Command(CommandName name, String description, String shortcut, String response, ResponseType responseType) {
         this.name = name;
         this.description = description;
         this.shortcut = shortcut;
@@ -42,11 +44,11 @@ public class Command extends AbstractDomainEntity {
         this.active = true;
     }
 
-    public String getName() {
+    public CommandName getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(CommandName name) {
         this.name = name;
     }
 
