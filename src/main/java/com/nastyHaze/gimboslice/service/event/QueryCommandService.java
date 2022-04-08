@@ -4,6 +4,7 @@ import com.nastyHaze.gimboslice.constant.CommandName;
 import com.nastyHaze.gimboslice.constant.Operator;
 import com.nastyHaze.gimboslice.constant.ResponseType;
 import com.nastyHaze.gimboslice.entity.data.Command;
+import com.nastyHaze.gimboslice.entity.model.CommandDTO;
 import com.nastyHaze.gimboslice.repository.CommandRepository;
 import com.nastyHaze.gimboslice.service.web.CommandListingService;
 import discord4j.core.object.entity.Message;
@@ -80,7 +81,7 @@ public class QueryCommandService extends CommandService {
         if(!argumentList.isEmpty() && Objects.equals(INFO_REQUEST, argumentList.get(0))) {
             response = command.getDescription();
         } else if(CommandName.COMMANDS.equals(command.getName())) {
-            response = commandListingService.retrieveAllCommands().toString();
+            response = formatCommandListing(commandListingService.retrieveAllCommands());
         } else {
             response = formatMessage(command.getResponseType(), command.getResponse());
         }
@@ -88,9 +89,18 @@ public class QueryCommandService extends CommandService {
         return response;
     }
 
+    private String formatCommandListing(List<CommandDTO> commandDTOList) {
+        String commandListingString = commandDTOList.stream()
+                .map(commandDTO -> String.format("%s : %s", commandDTO.getCommand(), commandDTO.getDescription()))
+                .collect(Collectors.toList())
+                .toString();
+
+        return formatListResponse(commandListingString);
+    }
+
     private String formatListResponse(String response) {
         return Arrays.stream(response.split(","))
-                .map(element -> "-> " + element + "\n")
+                .map(element -> String.format("-> %s\n", element))
                 .collect(Collectors.toList())
                 .toString()
                 .replaceAll("\\[|\\]|\\,", "");
