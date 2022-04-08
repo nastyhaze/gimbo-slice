@@ -68,7 +68,7 @@ public class QueryCommandService extends CommandService {
 
     private String formatListResponse(String response) {
         return Arrays.stream(response.split(","))
-                .map(element -> "-> " + element)
+                .map(element -> "-> " + element + "\n")
                 .collect(Collectors.toList())
                 .toString()
                 .replaceAll("\\[|\\]|\\,", "");
