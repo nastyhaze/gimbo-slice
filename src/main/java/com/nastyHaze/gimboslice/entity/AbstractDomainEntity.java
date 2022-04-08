@@ -16,8 +16,6 @@ import java.util.Objects;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
-@ToString
 public class AbstractDomainEntity implements Serializable {
 
     @Id

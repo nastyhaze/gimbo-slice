@@ -18,7 +18,6 @@ import javax.persistence.Enumerated;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-@ToString
 public class Command extends AbstractDomainEntity {
 
     @Enumerated(EnumType.STRING)
@@ -30,6 +29,7 @@ public class Command extends AbstractDomainEntity {
 
     private String response;
 
+    @Getter
     @Enumerated(EnumType.STRING)
     private ResponseType responseType;
 
