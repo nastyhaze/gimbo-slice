@@ -2,10 +2,7 @@ plugins {
 	id 'org.springframework.boot' version '2.6.4'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
-	id 'application'
 }
-
-mainClassName = 'com.nastyHaze.gimboslice.GimboSliceApplication'
 
 group = 'com.nastyHaze'
 version = '0.0.1-SNAPSHOT'
@@ -29,15 +26,4 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
-}
-
-jar {
-	manifest {
-		from {
-			configurations.extraLibs.collect { it.isDirectory() ? it : zipTree(it) }
-		}
-		attributes(
-				'Main-Class': 'com.nastyHaze.gimboslice.GimboSliceApplication'
-		)
-	}
 }
