@@ -1,6 +1,7 @@
 package com.nastyHaze.gimboslice.utility;
 
 import com.nastyHaze.gimboslice.constant.Operator;
+import com.nastyHaze.gimboslice.constant.ResponseType;
 import com.nastyHaze.gimboslice.repository.CommandRepository;
 import discord4j.common.util.Snowflake;
 import discord4j.core.object.entity.Guild;
@@ -21,6 +22,7 @@ public class CommonUtility {
 
     @Autowired
     private CommandRepository commandRepository;
+
 
     public static boolean isServerOwner(Mono<Guild> server, Id memberId) {
         return server.map(guild -> guild.getOwnerId().equals(Snowflake.of(memberId)))
@@ -64,5 +66,13 @@ public class CommonUtility {
                 .flatMap(Message::getChannel)
                 .flatMap(channel -> channel.createMessage(errorMessage))
                 .then();
+    }
+
+    public static List<String> getCommandResponseAsList(ResponseType responseType, String commandResponse) {
+        if(!ResponseType.LIST.equals(responseType)) {
+            return null;
+        }
+
+        return Arrays.asList(commandResponse.split(","));
     }
 }

@@ -1,4 +1,4 @@
-package com.nastyHaze.gimboslice.service;
+package com.nastyHaze.gimboslice.service.event;
 
 import com.nastyHaze.gimboslice.constant.Operator;
 import com.nastyHaze.gimboslice.entity.data.Command;

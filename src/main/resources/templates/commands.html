@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <!-- Local CSS -->
+  <link rel="stylesheet" type="text/css" href="./css/style.css">
+
+  <title>gimbo-slice - commands</title>
+
+</head>
+<body>
+
+  <!-- Navbar -->
+  <div th:insert="fragments/navbar :: navbar"></div>
+
+  <!-- Main content -->
+  <main class="text-white">
+
+    <div class="container">
+      <!-- Label row -->
+      <div class="row row-cols-3 align-items-center justify-content-center mb-3">
+        <!-- Column 1 -->
+        <div class="col-md-3 border-end text-center">
+          <div class="p-3"><strong>Name</strong></div>
+        </div>
+        <!-- Column 2 -->
+        <div class="col-md-3 text-center border-end">
+          <div class="p-3"><strong>Command</strong></div>
+        </div>
+        <!-- Column 3 -->
+        <div class="col-md-4">
+          <div class="p-3"><strong>Function</strong></div>
+        </div>
+      </div>
+
+      <!-- Generated row content -->
+      <div th:each="command : ${commands}" class="row row-cols-3 align-items-center justify-content-center mb-3">
+        <!-- Column 1 -->
+        <div class="col-md-3 border-end text-center">
+          <div th:text="${command.name}" class="p-3"></div>
+        </div>
+        <!-- Column 2 -->
+        <div class="col-md-3 text-center border-end">
+          <div th:text="${command.command}" class="p-3 user-select-all">?</div>
+        </div>
+        <!-- Column 3 -->
+        <div class="col-md-4">
+          <div th:text="${command.description}" class="p-3"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <div th:insert="fragments/footer :: footer"></div>
+
+  <!-- Bootstrap Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+</body>
+</html>

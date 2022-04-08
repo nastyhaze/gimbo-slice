@@ -1,4 +1,4 @@
-package com.nastyHaze.gimboslice.service;
+package com.nastyHaze.gimboslice.service.event;
 
 import com.nastyHaze.gimboslice.constant.Operator;
 import com.nastyHaze.gimboslice.constant.ResponseType;
@@ -39,7 +39,6 @@ public class RemoveCommandService extends CommandService {
         String commandShortcut = getCommandShortcutFromMessageContent(eventMessage.getContent());
         Command inCommand = commandRepository.findByShortcutAndActiveTrue(commandShortcut);
 
-        // TODO: refactor the if-else somehow
         if(Objects.isNull(inCommand) || !Objects.equals(ResponseType.LIST, inCommand.getResponseType())) {
             stream = processError(eventMessage, INVALID_COMMAND_ERROR_MESSAGE);
         } else {
@@ -61,22 +60,29 @@ public class RemoveCommandService extends CommandService {
         return Operator.REMOVE;
     }
 
-    // TODO: find an actual solution to this regex nightmare. aka templating
     private Command commandRemoveElement(Command command, List<String> argumentList) {
         String commandResponse = command.getResponse();
+        ResponseType commandResponseType = command.getResponseType();
 
         String newResponse = argumentList.stream()
+                .filter(arg -> containsElement(commandResponseType, commandResponse, arg))
                 .map(arg -> commandResponse.replaceFirst(",*" + arg, ""))
                 .collect(Collectors.toList())
                 .toString()
                 .replaceAll("\\[|\\]|\\,", "");
 
-        if(!Objects.equals(newResponse, commandResponse)) {
-            command.setResponse(newResponse);
-        } else {
+        if(Objects.equals(newResponse, commandResponse) || newResponse.isEmpty()) {
             command = null;
+        } else {
+            command.setResponse(newResponse);
         }
 
         return command;
+    }
+
+    private boolean containsElement(ResponseType responseType, String commandResponse, String element) {
+        List<String> commandResponseList = getCommandResponseAsList(responseType, commandResponse);
+
+        return Objects.nonNull(commandResponseList) && commandResponseList.contains(element);
     }
 }
