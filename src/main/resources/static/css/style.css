@@ -1,10 +1,41 @@
 body {
-    background-color: #000000 !important;
+    background-color: #242424 !important;
     font-family: "Lato", "Helvetica Neue", Arial, Helvetica, sans-serif;
+    min-height: 100vh;
+    position: relative;
 }
 
-main {
-    padding-top: 30px;
+.navbar {
+    background-color: #444444;
+}
+
+.nav-link {
+    color: white;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #444444;
+    color: white;
+}
+
+.footer a:link {
+    color: #5589d1;
+}
+
+.footer a:visited {
+    color: #5589d1;
+}
+
+.footer a:hover {
+    color: #5589d1;
+}
+
+.footer a:active {
+    color: #5589d1;
 }
 
 /* @media (max-width: 980px) {
@@ -14,6 +45,5 @@ main {
 } */
 
 /*
-TODO: figure out CSS issue
-TODO: change colors
+TODO: figure out CSS issue on commands page
 */
