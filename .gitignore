@@ -8,7 +8,7 @@ build/
 
 ### CUSTOM ###
 /src/main/resources/application.properties
-build/libs/gimbo-slice.jar
+/build/libs/gimbo-slice.jar
 pipeline.py
 
 ### STS ###
