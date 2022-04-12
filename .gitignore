@@ -8,6 +8,7 @@ build/
 
 ### CUSTOM ###
 /src/main/resources/application.properties
+pipeline.py
 
 ### STS ###
 .apt_generated
