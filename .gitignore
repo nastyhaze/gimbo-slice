@@ -8,6 +8,7 @@ build/
 
 ### CUSTOM ###
 /src/main/resources/application.properties
+build/libs/gimbo-slice.jar
 pipeline.py
 
 ### STS ###
@@ -41,3 +42,4 @@ out/
 ### VS Code ###
 .vscode/
 
+/build/libs/
