@@ -1,6 +1,7 @@
 package com.nastyHaze.gimboslice.service.event;
 
 import com.nastyHaze.gimboslice.constant.Operator;
+import com.nastyHaze.gimboslice.service.base.CommandService;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Message;
 import org.slf4j.Logger;
