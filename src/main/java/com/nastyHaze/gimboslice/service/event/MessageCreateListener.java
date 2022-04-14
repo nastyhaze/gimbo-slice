@@ -49,12 +49,18 @@ public class MessageCreateListener implements Listener<MessageCreateEvent> {
     }
 
     private CommandService getCommandServiceFromMessage(Message eventMessage) {
-        return commandServiceMap.get(getOperatorFromMessage(eventMessage));
+        Operator commandOperator = getOperatorFromMessage(eventMessage);
+
+        return Objects.nonNull(commandOperator)
+                ? commandServiceMap.get(commandOperator)
+                : null;
     }
 
     private Operator getOperatorFromMessage(Message message) {
+        String content = message.getContent();
+
         return Arrays.stream(Operator.values())
-                .filter(val -> val.opCode().equals(message.getContent().substring(0, 1)))
+                .filter(val -> val.opCode().equals(content.substring(0, 1)))
                 .findFirst()
                 .orElse(null);
     }
