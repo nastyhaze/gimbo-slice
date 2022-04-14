@@ -107,7 +107,7 @@ public class QueryCommandService extends CommandService {
     }
 
     private String formatTemplateResponse(String response) {
-        // TODO
+        // TODO: store these as key-value pairs. Use these pairs to map to the thymeleafContext valueMap
         return response;
     }
 }

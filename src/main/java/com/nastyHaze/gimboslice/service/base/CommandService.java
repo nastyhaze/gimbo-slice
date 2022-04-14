@@ -3,6 +3,7 @@ package com.nastyHaze.gimboslice.service.base;
 import com.nastyHaze.gimboslice.constant.Operator;
 import com.nastyHaze.gimboslice.entity.data.Command;
 import com.nastyHaze.gimboslice.repository.CommandRepository;
+import com.nastyHaze.gimboslice.service.web.CommandSaveService;
 import discord4j.core.object.entity.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ import static com.nastyHaze.gimboslice.utility.CommonUtility.processSuccess;
 public abstract class CommandService {
 
     @Autowired
-    private CommandRepository commandRepository;
+    private CommandSaveService commandSaveService;
 
 
     public abstract Operator getOperator();
@@ -32,7 +33,7 @@ public abstract class CommandService {
         if(Objects.isNull(command)) {
             stream = processError(eventMessage, INVALID_ARGUMENTS_ERROR_MESSAGE);
         } else {
-            commandRepository.save(command);
+            commandSaveService.save(command);
 
             stream = processSuccess(eventMessage, this.getOperator());
         }
