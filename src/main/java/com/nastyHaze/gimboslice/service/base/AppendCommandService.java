@@ -19,7 +19,7 @@ import static com.nastyHaze.gimboslice.constant.CommonConstant.INVALID_COMMAND_E
 import static com.nastyHaze.gimboslice.utility.CommonUtility.*;
 
 /**
- * Handles appending elements to simple list responses.
+ * Handles appending elements to LIST ResponseType Commands.
  */
 @Service
 public class AppendCommandService extends CommandService {
@@ -59,6 +59,12 @@ public class AppendCommandService extends CommandService {
         return Operator.APPEND;
     }
 
+    /**
+     * Appends elements from argumentList to the Command's Response field.
+     * @param command
+     * @param argumentList
+     * @return
+     */
     private Command commandAppendElement(Command command, List<String> argumentList) {
         argumentList.forEach(arg ->
                 command.setResponse(command.getResponse() + "," + arg));

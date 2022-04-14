@@ -15,7 +15,9 @@ import static com.nastyHaze.gimboslice.constant.CommonConstant.INVALID_ARGUMENTS
 import static com.nastyHaze.gimboslice.utility.CommonUtility.processError;
 import static com.nastyHaze.gimboslice.utility.CommonUtility.processSuccess;
 
-
+/**
+ *  Abstract parent class for Bot Command Services.
+ */
 @Service
 public abstract class CommandService {
 
@@ -23,10 +25,25 @@ public abstract class CommandService {
     private CommandSaveService commandSaveService;
 
 
+    /**
+     * Returns the Operator of the parsed Command.
+     * @return
+     */
     public abstract Operator getOperator();
 
+    /**
+     * Logic for processing the Commands for which each service is responsible.
+     * @param eventMessage
+     * @return
+     */
     public abstract Mono<Void> processCommand(Message eventMessage);
 
+    /**
+     * Saves altered Commands & provides success/error message.
+     * @param eventMessage
+     * @param command
+     * @return
+     */
     public Mono<Void> save(Message eventMessage, Command command) {
         Mono<Void> stream;
 

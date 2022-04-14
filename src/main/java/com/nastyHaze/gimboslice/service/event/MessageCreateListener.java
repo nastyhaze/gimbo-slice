@@ -48,6 +48,11 @@ public class MessageCreateListener implements Listener<MessageCreateEvent> {
         return MessageCreateEvent.class;
     }
 
+    /**
+     * Determines which Command Service will process a Message's content.
+     * @param eventMessage
+     * @return
+     */
     private CommandService getCommandServiceFromMessage(Message eventMessage) {
         Operator commandOperator = getOperatorFromMessage(eventMessage);
 
@@ -56,6 +61,11 @@ public class MessageCreateListener implements Listener<MessageCreateEvent> {
                 : null;
     }
 
+    /**
+     * Extracts the Command Operator from a Message's content.
+     * @param message
+     * @return
+     */
     private Operator getOperatorFromMessage(Message message) {
         String content = message.getContent();
         if(content.length() < 1) {

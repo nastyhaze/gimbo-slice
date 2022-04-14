@@ -56,6 +56,12 @@ public class QueryCommandService extends CommandService {
         return Operator.QUERY;
     }
 
+    /**
+     * Formats DB results (Commands' Responses) based on ResponseType.
+     * @param responseType
+     * @param response
+     * @return
+     */
     private String formatMessage(ResponseType responseType, String response) {
         String formattedResponse = null;
 
@@ -76,6 +82,12 @@ public class QueryCommandService extends CommandService {
         return formattedResponse;
     }
 
+    /**
+     * Determines how to response to a Query Command, based on what kind of information is requested.
+     * @param argumentList
+     * @param command
+     * @return
+     */
     private String determineContent(List<String> argumentList, Command command) {
         String response;
         if(!argumentList.isEmpty() && Objects.equals(INFO_REQUEST, argumentList.get(0))) {
@@ -89,6 +101,11 @@ public class QueryCommandService extends CommandService {
         return response;
     }
 
+    /**
+     * Formats responses from the CommandListingService.
+     * @param commandDTOList
+     * @return
+     */
     private String formatCommandListing(List<CommandDTO> commandDTOList) {
         String commandListingString = commandDTOList.stream()
                 .map(commandDTO -> String.format("%s : %s", commandDTO.getCommand(), commandDTO.getDescription()))
@@ -98,6 +115,11 @@ public class QueryCommandService extends CommandService {
         return formatListResponse(commandListingString);
     }
 
+    /**
+     * Formats Responses from LIST ResponseType Commands.
+     * @param response
+     * @return
+     */
     private String formatListResponse(String response) {
         return Arrays.stream(response.split(","))
                 .map(element -> String.format("-> %s\n", element))
@@ -106,6 +128,11 @@ public class QueryCommandService extends CommandService {
                 .replaceAll("\\[|\\]|\\,", "");
     }
 
+    /**
+     * Formats Responses from TEMPLATE ResponseType Commands.
+     * @param response
+     * @return
+     */
     private String formatTemplateResponse(String response) {
         // TODO: store these as key-value pairs. Use these pairs to map to the thymeleafContext valueMap
         return response;

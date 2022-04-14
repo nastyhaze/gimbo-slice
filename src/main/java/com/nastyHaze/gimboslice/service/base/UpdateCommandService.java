@@ -59,6 +59,7 @@ public class UpdateCommandService extends CommandService {
         return Operator.UPDATE;
     }
 
+
     private Command updateCommandResponse(Command command, List<String> argumentList) {
         if(argumentList.size() != 1) {
             command = null;

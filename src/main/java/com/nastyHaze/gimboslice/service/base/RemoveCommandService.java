@@ -60,6 +60,12 @@ public class RemoveCommandService extends CommandService {
         return Operator.REMOVE;
     }
 
+    /**
+     * Removes elements from argumentsList from a Command's Response field.
+     * @param command
+     * @param argumentList
+     * @return
+     */
     private Command commandRemoveElement(Command command, List<String> argumentList) {
         String commandResponse = command.getResponse();
         ResponseType commandResponseType = command.getResponseType();
@@ -80,6 +86,13 @@ public class RemoveCommandService extends CommandService {
         return command;
     }
 
+    /**
+     * Determines whether a Command's Response field contains a given String.
+     * @param responseType
+     * @param commandResponse
+     * @param element
+     * @return
+     */
     private boolean containsElement(ResponseType responseType, String commandResponse, String element) {
         List<String> commandResponseList = getCommandResponseAsList(responseType, commandResponse);
 
