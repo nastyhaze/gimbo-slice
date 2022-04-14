@@ -5,7 +5,6 @@ import com.nastyHaze.gimboslice.constant.ResponseType;
 import com.nastyHaze.gimboslice.entity.data.Command;
 import com.nastyHaze.gimboslice.exception.CommandExecutionException;
 import com.nastyHaze.gimboslice.repository.CommandRepository;
-import com.nastyHaze.gimboslice.service.base.CommandService;
 import discord4j.core.object.entity.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -6,7 +6,6 @@ import com.nastyHaze.gimboslice.constant.ResponseType;
 import com.nastyHaze.gimboslice.entity.data.Command;
 import com.nastyHaze.gimboslice.entity.model.CommandDTO;
 import com.nastyHaze.gimboslice.repository.CommandRepository;
-import com.nastyHaze.gimboslice.service.base.CommandService;
 import com.nastyHaze.gimboslice.service.web.CommandListingService;
 import discord4j.core.object.entity.Message;
 import org.springframework.beans.factory.annotation.Autowired;

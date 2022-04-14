@@ -1,6 +1,5 @@
 package com.nastyHaze.gimboslice.service.web;
 
-import com.nastyHaze.gimboslice.entity.data.Command;
 import com.nastyHaze.gimboslice.entity.model.CommandDTO;
 import com.nastyHaze.gimboslice.repository.CommandRepository;
 import com.nastyHaze.gimboslice.utility.EntityToDtoConversionUtil;
