@@ -1,5 +1,8 @@
 package com.nastyHaze.gimboslice.constant;
 
+/**
+ *  Operators that are used to execute Commands & specify the CommandService required to handle their execution.
+ */
 public enum Operator {
 
     QUERY("?"),

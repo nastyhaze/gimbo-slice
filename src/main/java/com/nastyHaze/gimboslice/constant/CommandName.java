@@ -1,5 +1,8 @@
 package com.nastyHaze.gimboslice.constant;
 
+/**
+ *  Used to track Command names. Used to specify extra logic needed for individual commands.
+ */
 public enum CommandName {
 
     INFO("Info"),

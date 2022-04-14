@@ -1,5 +1,8 @@
 package com.nastyHaze.gimboslice.constant;
 
+/**
+ *  Constant values used throughout the application.
+ */
 public class CommonConstant {
 
     public static final String INVALID_COMMAND_ERROR_MESSAGE = "Whoops! Invalid command, ***I D I O T***.";
