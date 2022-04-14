@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ *  UI-Friendly version of Command Entity.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
