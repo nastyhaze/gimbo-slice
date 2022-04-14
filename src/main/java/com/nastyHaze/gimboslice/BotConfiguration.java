@@ -19,7 +19,7 @@ import java.util.List;
 @Configuration
 public class BotConfiguration {
 
-    @Value("${token.test.backend}")
+    @Value("${token}")
     private String token;
 
     private static final Logger log = LoggerFactory.getLogger(BotConfiguration.class);
