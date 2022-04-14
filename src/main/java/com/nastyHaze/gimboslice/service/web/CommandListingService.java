@@ -9,13 +9,20 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
+/**
+ *  Service providing responses to GET Requests for the CommandListingController class.
+ */
 @Service
 public class CommandListingService {
 
     @Autowired
     private CommandRepository commandRepository;
 
-
+    /**
+     * Returns every active Command from the DB, each converted to a UI-friendly object.
+     * @return
+     */
     public List<CommandDTO> retrieveAllCommands() {
         return commandRepository.findAll()
                 .stream()
