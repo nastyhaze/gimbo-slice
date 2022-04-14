@@ -58,6 +58,9 @@ public class MessageCreateListener implements Listener<MessageCreateEvent> {
 
     private Operator getOperatorFromMessage(Message message) {
         String content = message.getContent();
+        if(content.length() < 1) {
+            return null;
+        }
 
         return Arrays.stream(Operator.values())
                 .filter(val -> val.opCode().equals(content.substring(0, 1)))
