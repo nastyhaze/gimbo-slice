@@ -1,0 +1,5 @@
+>>> **We're still on the hunt for these items:**
+[# th:each="item : ${CLUELESS_LIST}"]
+        [(${item})]
+      [/]
+**Good luck gamers!**

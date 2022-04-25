@@ -1,17 +1,17 @@
 package com.nastyHaze.gimboslice.controller;
 
-import com.nastyHaze.gimboslice.service.web.CommandListingService;
+import com.nastyHaze.gimboslice.entity.model.CommandDTO;
+import com.nastyHaze.gimboslice.service.data.CommandListingService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 /**
  *  Controller class for Command Listing (retrieval) operations. Returns UI-friendly objects, rather than entities.
  */
-@Controller
+@RestController
 @RequestMapping("/commands")
 public class CommandListingController {
 
@@ -19,15 +19,21 @@ public class CommandListingController {
     private CommandListingService commandListingService;
 
 
-    /**
-     * Returns all Commands from the DB.
-     * @param model
-     * @return
-     */
     @RequestMapping(value = "/listing", method = RequestMethod.GET)
-    public String commandsPage(Model model) {
-        model.addAttribute("commands", commandListingService.retrieveAllCommands()); // TODO: should only return active commands
+    @ResponseBody
+    public List<CommandDTO> getAllCommands() {
+        return commandListingService.retrieveAllCommands();
+    }
 
-        return "commands";
+    @RequestMapping(value = "/{commandShortcut}", method = RequestMethod.GET)
+    @ResponseBody
+    public CommandDTO getCommandByCommandShortcut(@PathVariable(value = "commandShortcut") String commandShortcut) {
+        return commandListingService.retrieveCommandByCommandShortcut(commandShortcut);
+    }
+
+    @RequestMapping(value = "/{commandShortcut}/response", method = RequestMethod.GET)
+    @ResponseBody
+    public String getResponseByCommandShortcut(@PathVariable(value = "commandShortcut") String commandShortcut) {
+        return commandListingService.retrieveCommandResponseByCommandShortcut(commandShortcut);
     }
 }

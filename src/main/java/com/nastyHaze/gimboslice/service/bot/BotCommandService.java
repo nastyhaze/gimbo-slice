@@ -1,25 +1,25 @@
-package com.nastyHaze.gimboslice.service.base;
+package com.nastyHaze.gimboslice.service.bot;
 
 import com.nastyHaze.gimboslice.constant.Operator;
 import com.nastyHaze.gimboslice.entity.data.Command;
-import com.nastyHaze.gimboslice.repository.CommandRepository;
-import com.nastyHaze.gimboslice.service.web.CommandSaveService;
+import com.nastyHaze.gimboslice.service.data.CommandSaveService;
 import discord4j.core.object.entity.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
 import java.util.Objects;
 
 import static com.nastyHaze.gimboslice.constant.CommonConstant.INVALID_ARGUMENTS_ERROR_MESSAGE;
-import static com.nastyHaze.gimboslice.utility.CommonUtility.processError;
-import static com.nastyHaze.gimboslice.utility.CommonUtility.processSuccess;
+import static com.nastyHaze.gimboslice.utility.CommonUtil.processError;
+import static com.nastyHaze.gimboslice.utility.CommonUtil.processSuccess;
 
 /**
  *  Abstract parent class for Bot Command Services.
  */
 @Service
-public abstract class CommandService {
+public abstract class BotCommandService {
 
     @Autowired
     private CommandSaveService commandSaveService;

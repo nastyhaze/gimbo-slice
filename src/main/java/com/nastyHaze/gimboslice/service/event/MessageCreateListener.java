@@ -1,7 +1,7 @@
 package com.nastyHaze.gimboslice.service.event;
 
 import com.nastyHaze.gimboslice.constant.Operator;
-import com.nastyHaze.gimboslice.service.base.CommandService;
+import com.nastyHaze.gimboslice.service.bot.BotCommandService;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Message;
 import org.slf4j.Logger;
@@ -21,26 +21,24 @@ import java.util.stream.Collectors;
 @Service
 public class MessageCreateListener implements Listener<MessageCreateEvent> {
 
-
-
-    private Map<Operator, CommandService> commandServiceMap;
+    private Map<Operator, BotCommandService> botCommandServiceMap;
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Bean
-    private Map<Operator, CommandService> setCommandServiceMap(List<CommandService> commandServiceList) {
-        commandServiceMap = commandServiceList.stream().collect(Collectors.toMap(CommandService::getOperator, Function.identity()));
-        return commandServiceMap;
+    private Map<Operator, BotCommandService> setBotCommandServiceMap(List<BotCommandService> botCommandServiceList) {
+        botCommandServiceMap = botCommandServiceList.stream().collect(Collectors.toMap(BotCommandService::getOperator, Function.identity()));
+        return botCommandServiceMap;
     }
 
     @Override
     public Mono<Void> execute(MessageCreateEvent event) {
         Message eventMessage = event.getMessage();
-        CommandService commandService = getCommandServiceFromMessage(eventMessage);
+        BotCommandService commandService = getCommandServiceFromMessage(eventMessage);
 
         return Objects.nonNull(commandService)
-                ? commandService.processCommand(eventMessage)
-                : Mono.empty();
+                ? commandService.processCommand(eventMessage).then()
+                : Mono.empty().then();
     }
 
     @Override
@@ -53,11 +51,11 @@ public class MessageCreateListener implements Listener<MessageCreateEvent> {
      * @param eventMessage
      * @return
      */
-    private CommandService getCommandServiceFromMessage(Message eventMessage) {
+    private BotCommandService getCommandServiceFromMessage(Message eventMessage) {
         Operator commandOperator = getOperatorFromMessage(eventMessage);
 
         return Objects.nonNull(commandOperator)
-                ? commandServiceMap.get(commandOperator)
+                ? botCommandServiceMap.get(commandOperator)
                 : null;
     }
 

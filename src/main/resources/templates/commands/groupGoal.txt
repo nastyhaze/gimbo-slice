@@ -1,0 +1,3 @@
+[# th:each="goal : ${GROUP_GOALS}"]
+        > ~ [(${goal})]
+      [/]

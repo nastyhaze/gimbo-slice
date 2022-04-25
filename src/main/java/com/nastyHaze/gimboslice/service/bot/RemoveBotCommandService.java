@@ -1,4 +1,4 @@
-package com.nastyHaze.gimboslice.service.base;
+package com.nastyHaze.gimboslice.service.bot;
 
 import com.nastyHaze.gimboslice.constant.Operator;
 import com.nastyHaze.gimboslice.constant.ResponseType;
@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
@@ -17,13 +18,13 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static com.nastyHaze.gimboslice.constant.CommonConstant.INVALID_COMMAND_ERROR_MESSAGE;
-import static com.nastyHaze.gimboslice.utility.CommonUtility.*;
+import static com.nastyHaze.gimboslice.utility.CommonUtil.*;
 
 /**
  * Handles removing elements from simple list responses.
  */
 @Service
-public class RemoveCommandService extends CommandService {
+public class RemoveBotCommandService extends BotCommandService {
 
     @Autowired
     private CommandRepository commandRepository;

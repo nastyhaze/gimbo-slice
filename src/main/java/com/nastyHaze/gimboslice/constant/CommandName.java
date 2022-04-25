@@ -11,9 +11,11 @@ public enum CommandName {
 
     GROUP_GOAL("Group Goal"),
 
-    CLUELESS("Clueless");
+    CLUELESS("Clueless"),
 
-    private String desc;
+    BARROWS("Barrows");
+
+    private final String desc;
 
     CommandName(String desc) {
         this.desc = desc;

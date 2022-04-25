@@ -2,12 +2,14 @@ package com.nastyHaze.gimboslice.utility;
 
 import com.nastyHaze.gimboslice.constant.Operator;
 import com.nastyHaze.gimboslice.constant.ResponseType;
+import com.nastyHaze.gimboslice.entity.model.CommandDTO;
 import com.nastyHaze.gimboslice.repository.CommandRepository;
 import discord4j.common.util.Snowflake;
 import discord4j.core.object.entity.Guild;
 import discord4j.core.object.entity.Message;
 import discord4j.discordjson.Id;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
 import java.util.Arrays;
@@ -18,7 +20,7 @@ import java.util.stream.Collectors;
 /**
  *  Utility methods used throughout the application. Not tied to specific operations.
  */
-public class CommonUtility {
+public class CommonUtil {
 
     @Autowired
     private CommandRepository commandRepository;
@@ -108,5 +110,9 @@ public class CommonUtility {
         }
 
         return Arrays.asList(commandResponse.split(","));
+    }
+
+    public static List<String> convertCommandDtoListToStringList(List<CommandDTO> commandDTOList) {
+        return commandDTOList.stream().map(CommandDTO::toString).collect(Collectors.toList());
     }
 }

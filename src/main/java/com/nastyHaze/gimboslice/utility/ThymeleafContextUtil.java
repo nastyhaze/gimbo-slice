@@ -1,6 +1,5 @@
 package com.nastyHaze.gimboslice.utility;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.TemplateEngine;
@@ -16,7 +15,9 @@ public class ThymeleafContextUtil {
 
     public Context getContext(Map<String, Object> valueMap) {
         Context context = new Context();
+
         context.setVariables(valueMap);
+
         return context;
     }
 

@@ -11,4 +11,8 @@ public class CommonConstant {
             "\n:weary: <:disaster:642270718213488642> <:lookofdisdain:720104937224273982>";
 
     public static final String INFO_REQUEST = "info";
+
+    public static final String COMMAND_LINE_BREAK= "~";
+
+    public static final String LIST_BREAK= ",";
 }

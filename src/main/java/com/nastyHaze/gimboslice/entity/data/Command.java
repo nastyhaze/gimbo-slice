@@ -27,6 +27,7 @@ public class Command extends AbstractDomainEntity {
 
     private String shortcut;
 
+    @EqualsAndHashCode.Exclude
     private String response;
 
     @Getter

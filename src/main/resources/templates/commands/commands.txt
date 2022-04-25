@@ -1,0 +1,6 @@
+```
+For more information, try '?info' !
+[# th:each="command : ${COMMAND_LIST}"]
+        [(${command})]
+      [/]
+```

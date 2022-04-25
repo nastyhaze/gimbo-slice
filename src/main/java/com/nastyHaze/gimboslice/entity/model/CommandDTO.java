@@ -18,4 +18,8 @@ public class CommandDTO {
 
     private String description;
 
+    @Override
+    public String toString() {
+        return String.format("name: %s\ncommand: %s\ndescription:%s", name, command, description);
+    }
 }
