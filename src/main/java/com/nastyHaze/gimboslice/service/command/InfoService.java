@@ -25,6 +25,7 @@ public class InfoService implements CommandService {
     @Autowired
     private ThymeleafContextUtil thymeleafContextUtil;
 
+
     @Override
     public String retrieveCommandResponse() {
         return getCommand().getResponse();

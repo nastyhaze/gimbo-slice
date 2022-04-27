@@ -1,4 +1,4 @@
-package com.nastyHaze.gimboslice.service.data;
+package com.nastyHaze.gimboslice.service.data.command;
 
 import com.nastyHaze.gimboslice.entity.data.Command;
 import com.nastyHaze.gimboslice.entity.model.CommandDTO;

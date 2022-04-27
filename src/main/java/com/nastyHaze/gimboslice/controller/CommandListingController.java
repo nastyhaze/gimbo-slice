@@ -1,7 +1,7 @@
 package com.nastyHaze.gimboslice.controller;
 
 import com.nastyHaze.gimboslice.entity.model.CommandDTO;
-import com.nastyHaze.gimboslice.service.data.CommandListingService;
+import com.nastyHaze.gimboslice.service.data.command.CommandListingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

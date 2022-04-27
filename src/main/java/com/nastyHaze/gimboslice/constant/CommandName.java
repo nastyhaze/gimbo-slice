@@ -13,7 +13,13 @@ public enum CommandName {
 
     CLUELESS("Clueless"),
 
-    BARROWS("Barrows");
+    BARROWS("Barrows"),
+
+    GEAR_REQUIREMENTS("Gear Requirements"),
+
+    CHAMBERS_REQ("Chambers of Xeric Requirements"),
+
+    DROP("Drop");
 
     private final String desc;
 

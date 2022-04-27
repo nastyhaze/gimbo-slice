@@ -44,7 +44,8 @@ public class AppendBotCommandService extends BotCommandService {
             try {
                 Command updatedCommand = commandAppendElement(inCommand, getArgumentsFromMessageContent(messageContent));
 
-                stream = save(eventMessage, updatedCommand);
+                //stream = save(eventMessage, updatedCommand);
+                stream = processError(eventMessage, "command in progress");
             } catch (Exception e) {
                 log.error("Error in AppendCommandService: " + e.getMessage());
                 throw new CommandExecutionException("Error in AppendCommandService: " + e.getMessage());

@@ -8,6 +8,8 @@ import lombok.*;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.Transient;
+import java.util.List;
 
 
 /**

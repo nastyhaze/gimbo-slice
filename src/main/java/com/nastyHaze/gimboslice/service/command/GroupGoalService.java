@@ -3,18 +3,15 @@ package com.nastyHaze.gimboslice.service.command;
 import com.nastyHaze.gimboslice.constant.CommandName;
 import com.nastyHaze.gimboslice.constant.TemplateConstant;
 import com.nastyHaze.gimboslice.entity.data.Command;
-import com.nastyHaze.gimboslice.entity.model.CommandDTO;
 import com.nastyHaze.gimboslice.repository.CommandRepository;
-import com.nastyHaze.gimboslice.service.data.CommandListingService;
+import com.nastyHaze.gimboslice.service.data.command.CommandListingService;
 import com.nastyHaze.gimboslice.utility.ThymeleafContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import static com.nastyHaze.gimboslice.constant.CommonConstant.COMMAND_LINE_BREAK;
 

@@ -15,4 +15,6 @@ public class CommonConstant {
     public static final String COMMAND_LINE_BREAK= "~";
 
     public static final String LIST_BREAK= ",";
+
+    public static int TEAM_SIZE = 5;
 }
