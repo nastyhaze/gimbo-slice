@@ -17,9 +17,11 @@ public enum CommandName {
 
     GEAR_REQUIREMENTS("Gear Requirements"),
 
-    CHAMBERS_REQ("Chambers of Xeric Requirements"),
+    SLAYER_TASK("Slayer Task"),
 
-    DROP("Drop");
+    DROP("Drop"),
+
+    CHAMBERS_REQ("Chambers of Xeric Requirements");
 
     private final String desc;
 
