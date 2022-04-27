@@ -3,8 +3,8 @@ package com.nastyHaze.gimboslice.service.bot;
 import com.nastyHaze.gimboslice.constant.Operator;
 import com.nastyHaze.gimboslice.constant.ResponseType;
 import com.nastyHaze.gimboslice.entity.data.Command;
-import com.nastyHaze.gimboslice.exception.CommandExecutionException;
 import com.nastyHaze.gimboslice.repository.CommandRepository;
+import com.nastyHaze.gimboslice.service.data.command.CommandSaveService;
 import discord4j.core.object.entity.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +15,7 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 import java.util.Objects;
 
+import static com.nastyHaze.gimboslice.constant.CommonConstant.INVALID_ARGUMENTS_ERROR_MESSAGE;
 import static com.nastyHaze.gimboslice.constant.CommonConstant.INVALID_COMMAND_ERROR_MESSAGE;
 import static com.nastyHaze.gimboslice.utility.CommonUtil.*;
 
@@ -27,6 +28,9 @@ public class AppendBotCommandService extends BotCommandService {
     @Autowired
     private CommandRepository commandRepository;
 
+    @Autowired
+    private CommandSaveService commandSaveService;
+
     private final Logger log = LoggerFactory.getLogger(getClass());
 
 
@@ -38,17 +42,23 @@ public class AppendBotCommandService extends BotCommandService {
         String commandShortcut = getCommandShortcutFromMessageContent(messageContent);
         Command inCommand = commandRepository.findByShortcutAndActiveTrue(commandShortcut);
 
+        List<String> argumentsList = getArgumentsFromMessageContent(messageContent);
+
         if(Objects.isNull(inCommand) || !Objects.equals(ResponseType.LIST, inCommand.getResponseType())) {
             stream = processError(eventMessage, INVALID_COMMAND_ERROR_MESSAGE);
+        } else if(Objects.isNull(argumentsList)) {
+            stream = processError(eventMessage, INVALID_ARGUMENTS_ERROR_MESSAGE);
         } else {
-            try {
-                Command updatedCommand = commandAppendElement(inCommand, getArgumentsFromMessageContent(messageContent));
+            switch(commandShortcut) {
+                case "clueless":
+                    Command updatedCommand = commandAppendElement(inCommand, argumentsList);
+                    commandSaveService.save(updatedCommand);
 
-                //stream = save(eventMessage, updatedCommand);
-                stream = processError(eventMessage, "command in progress");
-            } catch (Exception e) {
-                log.error("Error in AppendCommandService: " + e.getMessage());
-                throw new CommandExecutionException("Error in AppendCommandService: " + e.getMessage());
+                    stream = processSuccess(eventMessage, Operator.UPDATE);
+                    break;
+
+                default:
+                    stream = processError(eventMessage, INVALID_COMMAND_ERROR_MESSAGE);
             }
         }
 

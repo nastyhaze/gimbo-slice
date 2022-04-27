@@ -4,7 +4,6 @@ import com.nastyHaze.gimboslice.constant.Operator;
 import com.nastyHaze.gimboslice.entity.data.Command;
 import com.nastyHaze.gimboslice.repository.CommandRepository;
 import com.nastyHaze.gimboslice.service.data.command.CommandListingService;
-import com.nastyHaze.gimboslice.service.data.command.CommandSaveService;
 import discord4j.core.object.entity.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +12,8 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 import java.util.Objects;
 
-import static com.nastyHaze.gimboslice.constant.CommonConstant.*;
+import static com.nastyHaze.gimboslice.constant.CommonConstant.INFO_REQUEST;
+import static com.nastyHaze.gimboslice.constant.CommonConstant.INVALID_COMMAND_ERROR_MESSAGE;
 import static com.nastyHaze.gimboslice.utility.CommonUtil.*;
 
 /**
@@ -54,7 +54,7 @@ public class QueryBotCommandService extends BotCommandService {
     private String determineContent(List<String> argumentList, Command command) {
         String response;
 
-        if (!argumentList.isEmpty() && Objects.equals(INFO_REQUEST, argumentList.get(0))) {
+        if (Objects.nonNull(argumentList) && Objects.equals(INFO_REQUEST, argumentList.get(0))) {
             response = command.getDescription();
         } else {
             response = formatMessage(command);

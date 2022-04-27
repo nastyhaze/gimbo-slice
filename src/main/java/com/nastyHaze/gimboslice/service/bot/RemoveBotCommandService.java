@@ -3,20 +3,18 @@ package com.nastyHaze.gimboslice.service.bot;
 import com.nastyHaze.gimboslice.constant.Operator;
 import com.nastyHaze.gimboslice.constant.ResponseType;
 import com.nastyHaze.gimboslice.entity.data.Command;
-import com.nastyHaze.gimboslice.exception.CommandExecutionException;
 import com.nastyHaze.gimboslice.repository.CommandRepository;
+import com.nastyHaze.gimboslice.service.data.command.CommandSaveService;
 import discord4j.core.object.entity.Message;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import static com.nastyHaze.gimboslice.constant.CommonConstant.INVALID_ARGUMENTS_ERROR_MESSAGE;
 import static com.nastyHaze.gimboslice.constant.CommonConstant.INVALID_COMMAND_ERROR_MESSAGE;
 import static com.nastyHaze.gimboslice.utility.CommonUtil.*;
 
@@ -29,7 +27,8 @@ public class RemoveBotCommandService extends BotCommandService {
     @Autowired
     private CommandRepository commandRepository;
 
-    private final Logger log = LoggerFactory.getLogger(getClass());
+    @Autowired
+    private CommandSaveService commandSaveService;
 
 
     @Override
@@ -40,16 +39,23 @@ public class RemoveBotCommandService extends BotCommandService {
         String commandShortcut = getCommandShortcutFromMessageContent(eventMessage.getContent());
         Command inCommand = commandRepository.findByShortcutAndActiveTrue(commandShortcut);
 
+        List<String> argumentsList = getArgumentsFromMessageContent(messageContent);
+
         if(Objects.isNull(inCommand) || !Objects.equals(ResponseType.LIST, inCommand.getResponseType())) {
             stream = processError(eventMessage, INVALID_COMMAND_ERROR_MESSAGE);
+        } else if(Objects.isNull(argumentsList)) {
+            stream = processError(eventMessage, INVALID_ARGUMENTS_ERROR_MESSAGE);
         } else {
-            try {
-                Command updatedCommand = commandRemoveElement(inCommand, getArgumentsFromMessageContent(messageContent));
+            switch(commandShortcut) {
+                case "clueless":
+                    Command updatedCommand = commandRemoveElement(inCommand, argumentsList);
+                    commandSaveService.save(updatedCommand);
 
-                stream = save(eventMessage, updatedCommand);
-            } catch (Exception e) {
-                log.error("Error in RemoveCommandService: " + e.getMessage());
-                throw new CommandExecutionException("Error in RemoveCommandService: " + e.getMessage());
+                    stream = processSuccess(eventMessage, Operator.UPDATE);
+                    break;
+
+                default:
+                    stream = processError(eventMessage, INVALID_COMMAND_ERROR_MESSAGE);
             }
         }
 
@@ -76,7 +82,7 @@ public class RemoveBotCommandService extends BotCommandService {
                 .map(arg -> commandResponse.replaceFirst(",*" + arg, ""))
                 .collect(Collectors.toList())
                 .toString()
-                .replaceAll("\\[|\\]|\\,", "");
+                .replaceAll("\\[|\\]", "");
 
         if(Objects.equals(newResponse, commandResponse) || newResponse.isEmpty()) {
             command = null;

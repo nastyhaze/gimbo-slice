@@ -9,13 +9,9 @@ import discord4j.core.object.entity.Guild;
 import discord4j.core.object.entity.Message;
 import discord4j.discordjson.Id;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -64,12 +60,14 @@ public class CommonUtil {
         int argumentsIndex = eventMessageContent.indexOf("--");
 
         arguments = argumentsIndex < 0
-                ? "" 
+                ? null
                 : eventMessageContent.substring(argumentsIndex).trim();
 
-        return Arrays.stream(arguments.split("--"))
-                .filter(str -> !str.isEmpty())
-                .collect(Collectors.toList());
+        return Objects.nonNull(arguments)
+                ? Arrays.stream(arguments.split("--"))
+                    .filter(str -> !str.isEmpty())
+                    .collect(Collectors.toList())
+                : null;
     }
 
     /**
