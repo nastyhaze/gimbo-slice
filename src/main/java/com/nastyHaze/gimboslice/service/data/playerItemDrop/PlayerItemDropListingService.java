@@ -15,14 +15,14 @@ public class PlayerItemDropListingService {
 
 
     public List<PlayerItemDrop> retrieveAllDropsByPlayerName(String playerName) {
-        return dropRepository.findAllByCompositeKeyPlayerName(playerName);
+        return dropRepository.findAllByPlayerName(playerName);
     }
 
     public List<PlayerItemDrop> retrieveAllDropsByItemName(String itemName) {
-        return dropRepository.findAllByCompositeKeyItemName(itemName);
+        return dropRepository.findAllByItemName(itemName);
     }
 
     public int countAllDropsOfItemName(String itemName) {
-        return dropRepository.countByCompositeKeyItemName(itemName);
+        return dropRepository.countByItemName(itemName);
     }
 }

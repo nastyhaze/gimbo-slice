@@ -51,7 +51,7 @@ public class ChambersReqService implements CommandService{
         List<Item> chambersReqList = itemRepository.findAllByTagsContaining(ItemTag.CHAMBERS_REQ.name());
 
         List<String> formattedChambersReqList = chambersReqList.stream()
-                .map(item -> String.format("%-25s | %s / %s obtained", item.getName(), dropRepository.countByCompositeKeyItemName(item.getName()), TEAM_SIZE))
+                .map(item -> String.format("%-25s | %s / %s obtained", item.getName(), dropRepository.countByItemName(item.getName()), TEAM_SIZE))
                 .collect(Collectors.toList());
 
         Map<String, Object> contextMap = new HashMap<>();

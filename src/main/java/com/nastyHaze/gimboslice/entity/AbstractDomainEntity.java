@@ -20,6 +20,6 @@ import java.io.Serializable;
 public class AbstractDomainEntity implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected long id;
 }

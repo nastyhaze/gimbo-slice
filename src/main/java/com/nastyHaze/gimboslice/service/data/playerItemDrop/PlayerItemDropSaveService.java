@@ -1,7 +1,6 @@
 package com.nastyHaze.gimboslice.service.data.playerItemDrop;
 
 import com.nastyHaze.gimboslice.entity.data.PlayerItemDrop;
-import com.nastyHaze.gimboslice.entity.data.PlayerItemDropCompositeKey;
 import com.nastyHaze.gimboslice.repository.ItemRepository;
 import com.nastyHaze.gimboslice.repository.PlayerItemDropRepository;
 import com.nastyHaze.gimboslice.repository.PlayerRepository;
@@ -30,8 +29,8 @@ public class PlayerItemDropSaveService {
         String itemData = dropData.get(1).trim();
 
         if(isValidPlayer(playerData) && isValidItem(itemData)) {
-            PlayerItemDrop drop = new PlayerItemDrop(new PlayerItemDropCompositeKey(playerData, itemData));
-            drop.setDate_received(getCurrentDateAndTime());
+            PlayerItemDrop drop = new PlayerItemDrop(playerData, itemData);
+            drop.setDateReceived(getCurrentDateAndTime());
             dropRepository.save(drop);
             isSuccess = true;
         }

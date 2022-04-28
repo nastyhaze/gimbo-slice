@@ -17,8 +17,6 @@ import org.thymeleaf.context.Context;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.nastyHaze.gimboslice.constant.CommonConstant.TEAM_SIZE;
-
 @Service
 public class BarrowsService implements CommandService {
 
@@ -54,7 +52,7 @@ public class BarrowsService implements CommandService {
 
         Map<String, Integer> barrowsLog = new HashMap<>();
 
-        barrowsItemNames.forEach(itemName -> barrowsLog.put(itemName, dropRepository.countByCompositeKeyItemName(itemName)));
+        barrowsItemNames.forEach(itemName -> barrowsLog.put(itemName, dropRepository.countByItemName(itemName)));
 
         List<List<String>> barrowsTableEntries = formatBarrowsLog(barrowsLog);
 
