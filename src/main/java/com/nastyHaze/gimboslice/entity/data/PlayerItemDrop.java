@@ -1,35 +1,32 @@
 package com.nastyHaze.gimboslice.entity.data;
 
+import com.nastyHaze.gimboslice.entity.AbstractDomainEntity;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
 import java.util.Date;
 
 import static com.nastyHaze.gimboslice.utility.CommonUtil.getCurrentDateAndTime;
 
 @Entity
 @Data
+@AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-public class PlayerItemDrop {
+public class PlayerItemDrop extends AbstractDomainEntity {
 
-    @EmbeddedId
-    private PlayerItemDropCompositeKey compositeKey;
+    private String playerName;
 
-    @JoinColumn(name = "player_name")
-    private Player player;
+    private String itemName;
 
-    @JoinColumn(name = "item_name")
-    private Item item;
+    private Date dateReceived;
 
-    private Date date_received;
-
-    public PlayerItemDrop(PlayerItemDropCompositeKey compositeKey) {
-        this.compositeKey = compositeKey;
-        this.date_received = getCurrentDateAndTime();
+    public PlayerItemDrop(String playerName, String itemName) {
+        this.playerName = playerName;
+        this.itemName = itemName;
+        this.dateReceived = getCurrentDateAndTime();
     }
 }
