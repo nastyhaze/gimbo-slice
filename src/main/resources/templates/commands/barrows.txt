@@ -1,0 +1,7 @@
+```
+[# th:each="brother : ${BARROWS_TABLE}"]
+    [# th:each="item : ${brother}"]
+        [(${item})]
+        [/]
+      [/]
+```

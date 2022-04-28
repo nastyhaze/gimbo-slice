@@ -13,4 +13,6 @@ public class TemplateConstant {
     public static final String CHAMBERS_REQ_TEMPLATE = "/commands/coxReq.txt";
 
     public static final String SLAYER_TASK_TEMPLATE = "/commands/slayerTask.txt";
+
+    public static final String BARROWS_TEMPLATE = "/commands/barrows.txt";
 }
