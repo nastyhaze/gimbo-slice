@@ -78,7 +78,7 @@ public class CommonUtil {
      */
     public static Mono<Void> processSuccess(Message successMessage, Operator operation) {
         return Mono.just(successMessage)
-                .filter(message -> isServerOwner(message.getGuild(), message.getUserData().id()))
+                //.filter(message -> isServerOwner(message.getGuild(), message.getUserData().id()))
                 .flatMap(Message::getChannel)
                 .flatMap(channel -> channel.createMessage(operation + " operation successful."))
                 .then();
