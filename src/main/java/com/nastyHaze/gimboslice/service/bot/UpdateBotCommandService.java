@@ -6,8 +6,11 @@ import com.nastyHaze.gimboslice.entity.data.Command;
 import com.nastyHaze.gimboslice.repository.CommandRepository;
 import com.nastyHaze.gimboslice.repository.ItemRepository;
 import com.nastyHaze.gimboslice.repository.PlayerRepository;
+import com.nastyHaze.gimboslice.service.data.command.CommandSaveService;
+import com.nastyHaze.gimboslice.service.data.player.PlayerSaveService;
 import com.nastyHaze.gimboslice.service.data.playerItemDrop.PlayerItemDropSaveService;
 import discord4j.core.object.entity.Message;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
@@ -32,10 +35,13 @@ public class UpdateBotCommandService extends BotCommandService {
     private ItemRepository itemRepository;
 
     @Autowired
+    private CommandRepository commandRepository;
+
+    @Autowired
     private PlayerItemDropSaveService dropSaveService;
 
     @Autowired
-    private CommandRepository commandRepository;
+    private PlayerSaveService playerSaveService;
 
 
     @Override
@@ -55,13 +61,15 @@ public class UpdateBotCommandService extends BotCommandService {
         } else {
             switch(commandShortcut) {
                 case "drop":
-                    stream = dropSaveService.save(argumentsList)
+                    stream = updateDrop(argumentsList)
                             ? processSuccess(eventMessage, Operator.UPDATE)
-                            : processError(eventMessage, INVALID_ARGUMENTS_ERROR_MESSAGE);;
+                            : processError(eventMessage, INVALID_ARGUMENTS_ERROR_MESSAGE);
                     break;
 
-                case "item":
-                    stream = processError(eventMessage, "Error, command not yet complete..see developer for more information.");
+                case "slayerTask":
+                    stream = updateSlayerTask(argumentsList)
+                            ? processSuccess(eventMessage, Operator.UPDATE)
+                            : processError(eventMessage, INVALID_ARGUMENTS_ERROR_MESSAGE);
                     break;
 
                 default:
@@ -75,5 +83,14 @@ public class UpdateBotCommandService extends BotCommandService {
     @Override
     public Operator getOperator() {
         return Operator.UPDATE;
+    }
+
+
+    private boolean updateSlayerTask(List<String> argumentsList) {
+        return playerSaveService.updateTask(argumentsList);
+    }
+
+    private boolean updateDrop(List<String> argumentsList) {
+        return dropSaveService.save(argumentsList);
     }
 }

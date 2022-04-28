@@ -17,4 +17,14 @@ public class CommonConstant {
     public static final String LIST_BREAK= ",";
 
     public static int TEAM_SIZE = 5;
+
+    public static String[] expressiveNullResponses = {
+            "bro, idk.",
+            "fuck if I know",
+            "ask again later",
+            "eh, probably zygomites",
+            ":weary:",
+            "bagels && cream cheese",
+            "bleep blorp"
+    };
 }

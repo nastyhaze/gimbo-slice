@@ -1,0 +1,5 @@
+```
+[# th:each="playerTask : ${PLAYER_TASK_LIST}"]
+        [(${playerTask})]
+      [/]
+```

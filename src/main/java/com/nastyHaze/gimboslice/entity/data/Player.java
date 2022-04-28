@@ -18,6 +18,4 @@ public class Player extends AbstractDomainEntity {
     private String name;
 
     private String slayerTask;
-
-    private String todo;
 }

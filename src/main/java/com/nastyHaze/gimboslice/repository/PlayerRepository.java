@@ -6,4 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface PlayerRepository extends JpaRepository<Player, Long> {
 
     public boolean existsByName(String name);
+
+    public Player findOneByName(String name);
 }
