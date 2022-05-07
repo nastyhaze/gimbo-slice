@@ -54,6 +54,10 @@ public class QueryBotCommandService extends BotCommandService {
     private String determineContent(List<String> argumentList, Command command) {
         String response;
 
+        if(Objects.nonNull(argumentList) && argumentList.size() > 1) {
+            return INVALID_COMMAND_ERROR_MESSAGE;
+        }
+
         if (Objects.nonNull(argumentList) && Objects.equals(INFO_REQUEST, argumentList.get(0))) {
             response = command.getDescription();
         } else {
